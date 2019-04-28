@@ -1,0 +1,19 @@
+#cuadro{
+    width: 500px;
+    border-radius: 0px;
+    
+}
+#cabecera{
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #000000;
+}
+#nuevo{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 2px solid #000000;
+    margin-top: 15px;
+}
+body{
+    background: #1C1C1C;
+}
