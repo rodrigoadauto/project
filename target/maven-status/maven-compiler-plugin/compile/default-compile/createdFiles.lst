@@ -1,0 +1,8 @@
+com\mycompany\proyectoeventos\controllers\EventoController.class
+com\mycompany\proyectoeventos\controllers\UsuarioController.class
+com\mycompany\proyectoeventos\model\entity\Category.class
+com\mycompany\proyectoeventos\model\repository\CategoryRepository.class
+com\mycompany\proyectoeventos\model\entity\Usuario.class
+com\mycompany\proyectoeventos\model\entity\Evento.class
+com\mycompany\proyectoeventos\model\repository\EventoRepository.class
+com\mycompany\proyectoeventos\model\repository\UsuarioRepository.class
