@@ -1,31 +1,48 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <spring:url value="/resources" var="urlPublic" />
+<spring:url value="/" var="urlBase" />
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 
 
 <!DOCTYPE jsp>
-<html lang="en">
+<html >
 
-<head>
+    <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-  <title>Eventos_Publicos</title>
+        <title>Eventos_Publicos</title>
+        <jsp:include page="codigolinks.jsp" />
 
-  <!-- Bootstrap core CSS -->
-  <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script>
+            $(document).ready(function () {
+                $("#crearEvento").prop('class', 'nav-item active');
+                
+                $("#sidebarToggle").click(function () {
 
-  <!-- Custom styles for this template -->
-  <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
 
-  <style>
+                    if ($("#MainMenu").css("display") == "none") {
+                        $("#MainMenu").css("display", "flex");
+                    } else {
+                        $("#MainMenu").css("display", "none");
+                    }
+
+                });
+            })
+
+        </script>
+        <style>
             .color{
                 background-color: black;
+                padding-top: 0px !important; 
             }
-             .bd-sidebar{
+            .bd-sidebar{
                 position: sticky; 
                 height: calc(-4rem + 100vh); 
                 z-index: 1000;
@@ -34,185 +51,149 @@
             .flex-xl-nowrap{
                 -ms-flex-nowrap: nowrap !important;
                 flex-wrap: nowrap !important ;
-                
+
             }
+
         </style>
 
-</head>
 
-<body class="color" >
+    </head>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="eventosPublicxs">EVENT PUCP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          
-          <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href=" "> <strong> ROBERTO BOLAÑO </strong> <span class="sr-only">(current)</span></a>
+    <body class="color" >
 
-                            <div class="dropdown-menu bg-dark border-dark" aria-labelledby="navbarDropdown">
-                               
-                                <a class="dropdown-item bg-dark text-light" href=" " >  Salir </a>
+        <jsp:include page="BarraSuperiorUsuario.jsp" />
 
+        <!-- Page Content -->
+        <div id="wrapper"> 
+
+            <jsp:include page="MenuUsuario.jsp" />
+
+            <div id="content-wrapper">
+
+                <div class="container-fluid">
+
+                    <div class="card">
+                        <div class="card-header "> <strong> CREAR EVENTO</strong> </div>
+
+                        <div class="card-body">
+
+
+                            <form:form action="${urlBase}usuario/eventoCreado?${_csrf.parameterName}=${_csrf.token}" modelAttribute="evento" method="POST"  enctype="multipart/form-data">
+                                <form:hidden path="id" />
+                                <!-- Se guarda el Id del creador -->
+                                <form:hidden path="usuario.id" value="${sessionScope.usuario.id}" />
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Foto Del Evento</label>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <img class="card-img-top img-fluid" src="http://placehold.it/900x300" alt="">
+
+                                        </div>
+
+                                        <div class="col-lg-6">
+
+                                            <p class="invisible"> noborrar </p>
+                                            <p class="invisible"> noborrar </p>
+                                            <div class="form-group">
+                                                <label for="file"> Foto</label>
+                                                <input class="form-control-file" type="file" name="file"/>
+                                                <c:if test="${msgFile!=null}">
+                                                    <div class="text-danger">${msgFile}</div>
+                                                </c:if> 
+
+                                            </div>
+
+                                        </div>
+
+                                        <h6 class="invisible"> no borrar </h6>
+
+                                    </div>
+
+
+
+                                    <div class="form-group"> 
+                                        <label for="nombre">Nombre del evento</label>
+                                        <form:input type="text" class="form-control" path="nombre"/>
+                                        <form:errors path="nombre" element="div" cssClass="text-danger" />
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label for="lugar">Ubicación</label>
+                                        <form:input type="text" class="form-control" path="lugar"/>
+                                        <form:errors path="lugar" element="div" cssClass="text-danger" />
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripción</label>
+                                        <form:textarea type="text" class="form-control" id="exampleFormControlTextarea3" path="descripcion" rows="5"/>
+                                        <form:errors path="descripcion" element="div" cssClass="text-danger" />
+                                    </div>
+                                    <div class="form-group"> 
+                                        <label for="categoria">Categoria</label>
+                                        <form:select  class="form-control" path="categoria.id"
+                                                      items="${listaCategorias}" itemValue="id" itemLabel="nombreCategoria"/> 
+
+                                    </div>
+
+                                    <form:input type="hidden" path="estadoEvento" value="Por atender"/>
+
+                                    <div class="form-group">
+                                        <label for="fecha">Fecha</label>
+                                        <form:input type="date" id="textboxid" class="form-control" path="fecha" placeholder="YYYY-MM-DD"/> 
+                                        <form:errors path="fecha" element="div" cssClass="text-danger" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="horaInicio">Hora Incio</label>
+                                        <form:input type="time" id="textboxid" class="form-control" path="horaInicio" placeholder="00:00:00"/>
+                                        <form:errors path="horaInicio" element="div" cssClass="text-danger" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="horaFin">Hora Fin</label>
+                                        <form:input type="time" id="textboxid" class="form-control" path="horaFin" placeholder="00:00:00"/>
+                                        <form:errors path="horaFin" element="div" cssClass="text-danger" />
+
+                                    </div>
+
+
+
+
+
+
+
+                                    <!-- Bootstrap core CSS <div class="form-group">
+                                   <label for="exampleInputEmail1">Fecha fin</label>
+
+                                   <input type="text" data-role="calendarpicker" name="fechaEvento"  placeholder="Selecciona la fecha">
+
+                               </div> -->
+
+
+
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+
+
+
+
+
+
+
+                                </form:form>
                             </div>
+                        </div>
 
-                        </li> 
-         
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <div class="row flex-xl-nowrap">
-
-      <div class="col-lg-3 ">
-        <h1 class="my-4"></h1>
-        <div class="list-group text-green">
-          <a href="eventosPublicxs" class="list-group-item  ">Eventos Públicos</a>
-          <a href="misEventos" class="list-group-item ">Mis Eventos</a>
-          <a href="crearEvento" class="list-group-item active">Crear Evento</a>
-          <a href="eventosAsistidos" class="list-group-item ">Eventos Asistidos</a>
-          <a href="postular" class="list-group-item">Postular a Moderador</a>
- 
-        </div>
-
-        <p>
-          
-        </p>
-
-          <div class="list-group">
-
-          <a href="#" class="list-group-item active"> Categorías </a>
-          <a href="#" class="list-group-item"> Eventos Culturales </a>
-          <a href="#" class="list-group-item"> Eventos Deportivos </a>
-          <a href="#" class="list-group-item"> Eventos Artísticos </a>
-          <a href="#" class="list-group-item"> Eventos Musicales </a>
-          <a href="#" class="list-group-item"> Eventos Políticos</a>
-          <a href="#" class="list-group-item"> Eventos Religiosos </a>
-          <a href="#" class="list-group-item"> Eventos Culinarios </a>
-          <a href="#" class="list-group-item"> Eventos Bienestar </a>
-          <a href="#" class="list-group-item"> Eventos Recreacionales </a>
-          <a href="#" class="list-group-item"> Otros </a>
-          
-          
-  
+                    </div>
+                </div>
+            </div>
         </div>
 
 
-        <div>
-          
-
-        </div>
-
-      </div>
-      <!-- /.col-lg-3 -->
-
-      <div class="col-lg-9">
-          
-          <p>    </p>  
-<div class="card">
-  <div class="card-header "> <strong> CREAR EVENTO</strong> </div>
-
-  <div class="card-body">
-
-       
-            <form>
-
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Foto Del Evento</label>
-              <div class="row">
-                <div class="col-lg-6">
-                   <img class="card-img-top img-fluid" src="http://placehold.it/900x300" alt="">
-              </div>
-
-              <div class="col-lg-6">
-                  <p class="invisible"> noborrar </p>
-                  <p class="invisible"> noborrar </p>
-                  
-                  <a class="btn btn-secondary btn " href="#" role="button">Subir Foto</a> 
-              </div>
-              
-               <h6 class="invisible"> no borrar </h6>
-
-            </div>
-            
-            <div class="form-group">
-              <label for="exampleInputEmail1">Nombre del evento</label>
-              <input type="text" class="form-control" id="exampleInputEmail1">
-            </div>
-
-             <div class="form-group">
-              <label for="exampleInputEmail1">Ubicación</label>
-              <input type="text" class="form-control" id="exampleInputEmail1">
-            </div>
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Seleccionar Categoría del Evento</label>
-
-             <div class="dropdown">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categorías
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Cultural</a>
-              <a class="dropdown-item" href="#">Bienestar</a>
-              <a class="dropdown-item" href="#">Ciencia</a>
-              <a class="dropdown-item" href="#">Fiesta</a>
-              <a class="dropdown-item" href="#">Otros</a>
-          </div>
-          </div>
-        </div>
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Fecha</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="dd/mm/aaaa">
-            </div>
-
-                <div class="form-group">
-              <label for="exampleInputEmail1">Hora inicio</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="hh:mm">
-            </div>
-
-                <div class="form-group">
-              <label for="exampleInputEmail1">Hora fin</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="hh:mm">
-            </div>
-               
-            
-            <div class="d-flex ">
-                <a class="btn btn-secondary btn-lg mr-auto float-left" href="eventosPublicxs" role="button">Regresar</a> 
-                <a class="btn btn-secondary btn-lg float-right" href="misEventos" role="button">Crear Evento</a> 
-
-                            </div>
-   </div>
- </form>
-</div>
-</div>
-
-
- 
-
-  <p>  </p>
-</div>
-
-  <!-- /.container -->
-
-  <!-- Footer -->
-  
-  <!-- Bootstrap core JavaScript -->
-  <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
-  <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
+        <jsp:include page="codigojs.jsp" />
+    </body>
 
 </html>

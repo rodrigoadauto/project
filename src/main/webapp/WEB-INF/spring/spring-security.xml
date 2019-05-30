@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security= "http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"      
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+">
+    
+    <security:http auto-config="true">
+        <!-- Se declaran todos las rutas que serán protegidas -->
+        <security:intercept-url pattern="/usuario/**" access="hasAnyAuthority('usuario')" />
+        <security:intercept-url pattern="/moderador/**" access="hasAnyAuthority('moderador')" />        
+        <security:intercept-url pattern="/administrador/**" access="hasAnyAuthority('administrador')" /> 
+        
+        
+        <security:form-login 
+            login-page="/"
+            default-target-url="/redirectPorRol"
+            username-parameter="correo"
+            password-parameter="contrasena"
+            always-use-default-target="true"  />
+    
+        <security:logout logout-success-url="/" 
+                         delete-cookies="JSESSIONID" 
+                         invalidate-session="true" />
+        
+        
+    </security:http>
+        
+        
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:password-encoder hash="bcrypt" />
+            <security:jdbc-user-service 
+                data-source-ref="dataSource" 
+                users-by-username-query="Select correo , contrasena , activo from usuario Where correo = ? "
+                authorities-by-username-query="SELECT u.correo,  s.autoridad FROM usuario u INNER JOIN 
+                            sesion s ON (u.idsesion = s.idsesion) WHERE u.correo = ? and activo = 1 " />
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>
+ 
+ 
+ 

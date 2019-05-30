@@ -29,13 +29,39 @@
     <!-- configuración del Root application context -->
     <context-param>
 	<param-name>contextConfigLocation</param-name>
-	<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	<param-value>
+            /WEB-INF/spring/root-context.xml
+            /WEB-INF/spring/spring-security.xml
+            /WEB-INF/spring/session.xml
+        </param-value>
     </context-param>
+    
     <listener>
 	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
     
+     <!-- configuracion de spring session -->
+    <!-- debe ir antes de spring security -->
+    <filter>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Spring security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
     
     
 </web-app>

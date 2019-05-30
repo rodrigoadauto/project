@@ -2,10 +2,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <spring:url value="/resources" var="urlPublic" />
-
+<spring:url value="/" var="rootUrl" />
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE jsp>
-<html lang="en">
+<html >
 
     <head>
 
@@ -15,16 +16,34 @@
         <meta name="author" content="">
 
         <title>Eventos_Publicos</title>
+        <jsp:include page="codigolinks.jsp" />
 
-        <!-- Bootstrap core CSS -->
-        <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <script>
+            $(document).ready(function () {
+                $("#eventosPublicos").prop('class', 'nav-item active');
 
-        <!-- Custom styles for this template -->
-        <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
+                $("#sidebarToggle").click(function () {
 
+
+                    if ($("#MainMenu").css("display") == "none") {
+                        $("#MainMenu").css("display", "flex");
+                    } else {
+                        $("#MainMenu").css("display", "none");
+                    }
+
+                });
+                $(function () {
+                    $('[data-toggle="popover"]').popover()
+                })
+            })
+
+
+
+        </script>
         <style>
             .color{
                 background-color: black;
+                padding-top: 0px !important; 
             }
             .bd-sidebar{
                 position: sticky; 
@@ -37,172 +56,180 @@
                 flex-wrap: nowrap !important ;
 
             }
+            .tamano_img{
+                width: 347px;
+                height: 240px;
+            }
+
+            .movie__label {
+                display: flex;
+                position: absolute;
+                z-index: 2;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .titulo{
+                align-items: center;
+                justify-content: center;
+                z-index: 4;
+
+            }
+            .boton1{
+
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            .boton2{
+
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .transparente::before{
+                opacity: 0.5;
+            }
+            .transparente::after{
+                opacity: .5;
+            }
         </style>
+
 
     </head>
 
     <body class="color" >
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="eventosPublicxs">EVENT PUCP</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href=" "> <strong> ROBERTO BOLAÑO </strong> <span class="sr-only">(current)</span></a>
-
-                            <div class="dropdown-menu bg-dark border-dark" aria-labelledby="navbarDropdown">
-
-                                <a class="dropdown-item bg-dark text-light" href=" " >  Salir </a>
-
-                            </div>
-
-                        </li> 
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <jsp:include page="BarraSuperiorUsuario.jsp" />
 
         <!-- Page Content -->
-        <div class="container">
+        <div id="wrapper"> 
 
-            <div class="row flex-xl-nowrap">
+            <jsp:include page="MenuUsuario.jsp" />
 
-                <div class="col-lg-3 ">
-                    <h1 class="my-4"></h1>
-                    <div class="list-group text-green">
-                        <a href="eventosPublicxs" class="list-group-item active ">Eventos Públicos</a>
-                        <a href="misEventos" class="list-group-item ">Mis Eventos</a>
-                        <a href="crearEvento" class="list-group-item">Crear Evento</a>
-                        <a href="eventosAsistidos" class="list-group-item ">Eventos Asistidos</a>
-                        <a href="postular" class="list-group-item">Postular a Moderador</a>
+            <div id="content-wrapper">
 
-                    </div>
+                <div class="container-fluid">
 
-                    <p>
-
-                    </p>
-
-                    <div class="list-group">
-
-                        <a href="#" class="list-group-item active"> Categorías </a>
-                        <a href="#" class="list-group-item"> Eventos Culturales </a>
-                        <a href="#" class="list-group-item"> Eventos Deportivos </a>
-                        <a href="#" class="list-group-item"> Eventos Artísticos </a>
-                        <a href="#" class="list-group-item"> Eventos Musicales </a>
-                        <a href="#" class="list-group-item"> Eventos Políticos</a>
-                        <a href="#" class="list-group-item"> Eventos Religiosos </a>
-                        <a href="#" class="list-group-item"> Eventos Culinarios </a>
-                        <a href="#" class="list-group-item"> Eventos Bienestar </a>
-                        <a href="#" class="list-group-item"> Eventos Recreacionales </a>
-                        <a href="#" class="list-group-item"> Otros </a>
-
-
-
-                    </div>
-
-
-                    <div>
-
-
-                    </div>
-
-                </div>
-                <!-- /.col-lg-3 -->
-
-                <div class="col-lg-9">
-
-
-                    <p>    </p>  
                     <div class="card">
                         <div class="card-header "> <strong> EVENTOS PÚBLICOS</strong> </div>
 
                         <div class="card-body">
 
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Nombre...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-secondary" type="button">Buscar</button>
-                                </span>
-                            </div>
+                            <form method="GET" action="${rootUrl}usuario/buscar" >
 
-                            <p>  </p>
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <input type="text" class="form-control" name ="nombre" placeholder="Buscador por nombre de evento" value="${search}"/>
+                                    </div>
+                                    <span class="input-group-btn">
+
+                                        <input type="submit" class="btn btn-primary" value="Buscar"/>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                    </span>
+                                </div>
+                            </form>
+
 
                             <div class="dropdown">
-
-
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Filtrar Por Tiempo
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Hoy</a>
-                                    <a class="dropdown-item" href="#">Mañana</a>
-                                    <a class="dropdown-item" href="#">Próximos 7 Días</a>
-                                    <a class="dropdown-item" href="#">Próximos 15 Días</a>
-                                    <a class="dropdown-item" href="#">Próximos 30 Días</a>
+                                    <a class="dropdown-item" href="${rootUrl}usuario/filtroTiempo?tiempo=0">Hoy</a>
+                                    <a class="dropdown-item" href="${rootUrl}usuario/filtroTiempo?tiempo=1">Mañana</a>
+                                    <a class="dropdown-item" href="${rootUrl}usuario/filtroTiempo?tiempo=7">Próximos 7 dias</a>
+                                    <a class="dropdown-item" href="${rootUrl}usuario/filtroTiempo?tiempo=15">Próximos 15 dias</a>
+                                    <a class="dropdown-item" href="${rootUrl}usuario/filtroTiempo?tiempo=30">Próximos 30 dias</a>
                                 </div>
-
                             </div>
+                            <br>
+
 
                             <div class="row">
 
+
                                 <c:forEach items="${listaEvento}" var= "listaEvento">
-                                    <div class="col-lg-6"> 
-
-                                        <div class="card mt-4">
-                                            <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-                                            <div class="card-body">
 
 
-                                                <div class="d-flex">
-                                                    <a href="detalles1" ><h3 class="text-left" > <font color="black"> ${listaEvento.getNombre()}</font>  </h3> </a>
-                                                    <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: ${listaEvento.getCategoria()} </button>
-                                                    <button type="button" class=" btn btn-sm btn-light mb-4  text-dark float-right border-secondary rounded-pill" > Estado: ${listaEvento.getEstadoEvento()} </button>
+                                    <div class="col-sm-4">
 
+
+
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row no-gutters">
+                                                <div class="col-md-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline" style="margin-bottom:0px ">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-outline-dark btn-block">   ${listaEvento.nombre} </button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    </form>
                                                 </div>
-                                                <h5></h5>
-                                                <p> ${listaEvento.getDescripcion()}</p>
-                                                <div >
+                                                <div class="col-md-12">
 
-                                                    <a class="btn btn-primary btn-lg float-right " href="eventosPublicxs" role="button">Asistir</a>
+                                                    <img src="${rootUrl}fileUploaded/${listaEvento.foto}" class=" card-img-top img-responsive">
+                                                    <button type="button" class="btn btn-outline-primary boton1 transparente" data-toggle="popover" title="${listaEvento.descripcion}" data-placement="left" 
+                                                            data-content="Inicio del evento: ${listaEvento.horaInicio} horas                           
+                                                            Fin del evento: ${listaEvento.horaFin} horas " >
+                                                        <i class="far fa-eye"></i></button>
+                                                    <button type="button" class="badge badge-pill badge-danger boton2">${listaEvento.categoria.nombreCategoria}</button>
+                                                </div>
+                                                
+                                                <div class="col-md-12">
+                                                        <button type="submit"  class="btn btn-light btn-block disabled">Fecha: ${listaEvento.fecha}</button>
+                                                     
 
-                                                </div>     
+                                                </div> 
+                                                <div class="col-md-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-outline-info btn-block">Asistir/Ver detalles</button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                                    </form>
+
+                                                </div> 
                                             </div>
                                         </div>
-
                                     </div>
+
 
                                 </c:forEach>
 
                             </div>
+
+
+
+
+
 
                             <div>
                                 <p>                       </p>
 
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">&larr; Anterior</a>
-                                        </li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">7</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">8</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">9</a></li>
 
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">Siguiente &rarr;</a>
-                                        </li>
+                                        <c:forEach var="i" begin="1" end="${cantDePaginas}" varStatus="loop">
+
+                                            <c:if test="${paginaActual == i}">
+                                                <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
+                                                </c:if>
+                                                <c:if test="${paginaActual != i}">
+                                                <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/listar?inicio=${i}">${i}</a></li>                                                
+                                                </c:if>
+
+
+
+
+
+                                        </c:forEach>
+
+
                                     </ul>
                                 </nav>
 
@@ -214,14 +241,10 @@
                     <p>  </p>
                 </div>
 
-                <!-- /.container -->
+            </div>
+        </div>
+        <jsp:include page="codigojs.jsp" />
 
-                <!-- Footer -->
+    </body>
 
-                <!-- Bootstrap core JavaScript -->
-                <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
-                <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                </body>
-
-                </html>
+</html>

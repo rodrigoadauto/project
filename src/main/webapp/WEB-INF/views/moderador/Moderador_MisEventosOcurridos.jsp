@@ -1,31 +1,36 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <spring:url value="/resources" var="urlPublic" />
+<spring:url value="/" var="rootUrl" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 
 
 <!DOCTYPE jsp>
 <html lang="en">
 
-<head>
+    <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-  <title>Eventos_Publicos</title>
+        <title>Usuario_MisEventos</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
 
-  <style>
+        <style>
             .color{
                 background-color: black;
+                padding-top: 0px !important; 
             }
-             .bd-sidebar{
+            .bd-sidebar{
                 position: sticky; 
                 height: calc(-4rem + 100vh); 
                 z-index: 1000;
@@ -34,295 +39,127 @@
             .flex-xl-nowrap{
                 -ms-flex-nowrap: nowrap !important;
                 flex-wrap: nowrap !important ;
-                
+
             }
         </style>
 
-</head>
+    </head>
 
-<body class="color" >
+    <body class="color" >
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="eventosPublicxs1">EVENT PUCP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          
-          <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href=" "> <strong> ROBERTO BOLAÑO </strong> <span class="sr-only">(current)</span></a>
 
-                            <div class="dropdown-menu bg-dark border-dark" aria-labelledby="navbarDropdown">
-                               
-                                <a class="dropdown-item bg-dark text-light" href=" " >  Salir </a>
+        <jsp:include page="BarraSuperiorModerador.jsp" />
 
+        <!-- Page Content -->
+        <div id="wrapper"> 
+
+            <jsp:include page="MenuModerador.jsp" />
+
+            <div id="content-wrapper">
+
+
+                <div class="container-fluid">
+
+                    <div class="card">
+                        <div class="card-header "> <strong> EVENTOS PÚBLICOS</strong> </div>
+
+                        <div class="card-body">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Nombre...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-secondary" type="button">Buscar</button>
+                                </span>
                             </div>
 
-                        </li> 
-         
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <div class="row flex-xl-nowrap">
-
-      <div class="col-lg-3 ">
-        <h1 class="my-4"></h1>
-        <div class="list-group text-green">
-          <a href="eventosPublicxs1" class="list-group-item  ">Eventos Públicos</a>
-          <a href="misEventos1" class="list-group-item active ">Mis Eventos</a>
-          <a href="crearEvento1" class="list-group-item ">Crear Evento</a>
-          <a href="eventosAsistidos1" class="list-group-item ">Eventos Asistidos</a>
-          <a href="evaluar" class="list-group-item">Evaluar Eventos</a>
- 
-        </div>
-
-        <p>
-          
-        </p>
-
-          <div class="list-group">
-
-          <a href="#" class="list-group-item active"> Categorías </a>
-          <a href="#" class="list-group-item"> Eventos Culturales </a>
-          <a href="#" class="list-group-item"> Eventos Deportivos </a>
-          <a href="#" class="list-group-item"> Eventos Artísticos </a>
-          <a href="#" class="list-group-item"> Eventos Musicales </a>
-          <a href="#" class="list-group-item"> Eventos Políticos</a>
-          <a href="#" class="list-group-item"> Eventos Religiosos </a>
-          <a href="#" class="list-group-item"> Eventos Culinarios </a>
-          <a href="#" class="list-group-item"> Eventos Bienestar </a>
-          <a href="#" class="list-group-item"> Eventos Recreacionales </a>
-          <a href="#" class="list-group-item"> Otros </a>
-          
-          
-  
-        </div>
+                            <p>  </p>
 
 
-        <div>
-          
+                           <div class="row">
+                                <c:forEach items="${listaMisEventos}" var= "listaMisEventos">
+                                    <div class="col-lg-4"> 
 
-        </div>
+                                        <div class="card mt-4">
+                                           <img class="card-img-top img-fluid"  style="width:1500px;height:300px;" src="${rootUrl}fileUploaded/${listaMisEventos.foto}" alt="">
+                                            <div class="card-body">
 
-      </div>
-      <!-- /.col-lg-3 -->
 
-      <div class="col-lg-9">
-          
-          <p>    </p>  
-<div class="card">
-  <div class="card-header "> 
-    <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-        <a class="nav-link " href="misEventos1"> Mis Eventos Por Ocurrir </a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link active" href="misEventosOcurridos1"> Mis Eventos Ocurridos</a>
-        </li>
-        </ul>
-   </div>
+                                                <a ><h3 class="text-left" > <font color="black"> ${listaMisEventos.nombre}</font>  </h3> </a>
+                                                <h5 class="text-success" > Categoría: ${listaMisEventos.categoria.nombreCategoria} </h5>
+                                                <p>Fecha: ${listaMisEventos.fecha}</p>
+                                                <p>Inicio del evento: ${listaMisEventos.horaInicio} horas</p>
+                                                <p>Fin del evento: ${listaMisEventos.horaFin} horas </p> 
+                                                
+                                                <div >
+                 
+                                                    
+                                                    
+                                                    <a class="btn btn-primary btn-lg float-left " href="${rootUrl}moderador/detallesMisEventos1/${listaMisEventos.id}" role="button"> Ver Detalles </a>
+                                                    <a class="btn btn-danger btn-lg float-right " href="${rootUrl}moderador/eliminarEvento2/${listaMisEventos.id}" role="button"> Eliminar   </a>
+                                                    
+                                                    
+                                                    
+                                                  
+                                                    
+                                                    
+                                                    
+                                                </div>     
+                                            </div>
+                                        </div>
 
-  <div class="card-body">
-    
+                                    </div>
 
-        <div class="input-group">
-              <input type="text" class="form-control" placeholder="Nombre...">
-              <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Buscar</button>
-              </span>
-        </div>
-
-        <p>  </p>
-        
-
-        <div class="row">
-       <div class="col-lg-4">   
-        <div class="dropdown">
-
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filtrar Por Tiempo
-        </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Hoy</a>
-            <a class="dropdown-item" href="#">Mañana</a>
-            <a class="dropdown-item" href="#">Próximos 7 Días</a>
-            <a class="dropdown-item" href="#">Próximos 15 Días</a>
-            <a class="dropdown-item" href="#">Próximos 30 Días</a>
-            <a class="dropdown-item" href="#">Próximos 2 Meses</a>
-            
-        </div>
-        </div>
-      </div>
-
-      <!--div class="col-lg-4"> 
-        <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filtrar Por Categoría
-        </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Categoria 1</a>
-            <a class="dropdown-item" href="#">Próximos 15 Días</a>
-            <a class="dropdown-item" href="#">Próximos 30 Días</a>
-            <a class="dropdown-item" href="#">Próximos 2 Meses</a>
-            <a class="dropdown-item" href="#">Próximos 6 Meses</a>
-        </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <a class="btn btn-secondary float-right btn " href="#" role="button">Buscar</a>
-
-      </div-->
-    </div>
-
-            <div class="row">
-                <p> </p>
-              <div class="col-lg-6"> 
-        
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-            
-                            <div class="d-flex ">
-                                <a href="despues21" ><h3 class="text-left" > <font color="black"> Teatro PUCP</font>  </h3> </a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: ARTE </button>
-                                
-
+                                </c:forEach>
                             </div>
-            <h5> 17 Abril / Complejo Polideportivo </h5>
-            <p> Representacion teatral de El Rey Lear por parte de los estudiantes de la faculta de Derecho. </p>
-         
-          <a class="btn btn-danger btn-lg float-right" href="#" role="button">Eliminar</a> 
-  
-          </div>
+                        </div>
+
+                        <div>
+                            <p>                       </p>
+
+                             <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+
+                                        <c:forEach var="i" begin="1" end="${cantDePaginas}" varStatus="loop">
+
+                                            <c:if test="${paginaActual == i}">
+                                                <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
+                                                </c:if>
+                                                <c:if test="${paginaActual != i}">
+                                                <li class="page-item active"><a class="page-link" href="${rootUrl}moderador/misEventos/${sessionScope.usuario.id}?inicio=${i}">${i}</a></li>                                                
+                                                </c:if>
+
+                                        </c:forEach>
+
+                                    </ul>
+                                </nav>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-      </div>
+        <!-- Bootstrap core JavaScript-->
+        <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
+        <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-      <div class="col-lg-6"> 
+        <!-- Core plugin JavaScript-->
+        <script src="${urlPublic}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
+        <!-- Page level plugin JavaScript-->
+        <script src="${urlPublic}/vendor/chart.js/Chart.min.js"></script>
+        <script src="${urlPublic}/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="${urlPublic}/vendor/datatables/dataTables.bootstrap4.js"></script>
 
-           
-                            <div class="d-flex">
-                                 <a href="despues21" ><h3 class="text-left" > <font color="black"> Baila Por Tu Salud</font></h3></a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: BIENESTAR </button>
-                                
+        <!-- Custom scripts for all pages-->
+        <script src="${urlPublic}/js/sb-admin.min.js"></script>
 
-                            </div>
-            <h5> 19 Abril / Losas Deportivas PUCP </h5>
-            <p> Actividad de baile y charla nutricional donde puedes hacer hora en el jueves cultural. </p>
+        <!-- Demo scripts for this page-->
+        <script src="${urlPublic}/js/demo/datatables-demo.js"></script>
+        <script src="${urlPublic}/js/demo/chart-area-demo.js"></script>
 
-             <a class="btn btn-danger btn-lg float-right" href="#" role="button">Eliminar</a> 
-            
-          </div>
-        </div>
-
-      </div>
-
-      <div class="col-lg-6"> 
-
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-              <div class="d-flex">
-                                <a href="despues21" ><h3 class="text-left" > <font color="black"> Coloquio De Física</font></h3></a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: CIENCIA </button>
-                                
-
-                            </div>
-            <h5> 20  Abril / Facultad de Física </h5>
-            <p> Conversatorio sobre optica por Katia Zegarra. </p>
-
-                   <a class="btn btn-danger btn-lg float-right" href="#" role="button">Eliminar</a> 
-    
-                      </div>
-        </div>
-
-      </div>
-
-       <div class="col-lg-6"> 
-
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-              <div class="d-flex">
-                                <a href="despues21" ><h3 class="text-left" > <font color="black"> Coloquio De Física</font></h3></a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: CIENCIA </button>
-                                
-
-                            </div>
-            <h5> 20  Abril / Facultad de Física </h5>
-            <p> Conversatorio sobre optica por Katia Zegarra. </p>
-                   
-                    <a class="btn btn-danger btn-lg float-right" href="#" role="button">Eliminar</a> 
-     
-                      </div>
-        </div>
-
-      </div>
-
-
-    
-      </div>
-
-      <div>
-      <p>                       </p>
-
-      <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#">&larr; Anterior</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">6</a></li>
-                            <li class="page-item"><a class="page-link" href="#">7</a></li>
-                            <li class="page-item"><a class="page-link" href="#">8</a></li>
-                            <li class="page-item"><a class="page-link" href="#">9</a></li>
-                            
-                            <li class="page-item">
-                                <a class="page-link" href="#">Siguiente &rarr;</a>
-                            </li>
-                        </ul>
-                    </nav>
-
-
-    
-</div>
-</div>
-  </div>
-
-
-<p>    </p>  
-
-  <p>  </p>
-</div>
-
-  <!-- /.container -->
-
-  <!-- Footer -->
-  
-  <!-- Bootstrap core JavaScript -->
-  <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
-  <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
+    </body>
 
 </html>

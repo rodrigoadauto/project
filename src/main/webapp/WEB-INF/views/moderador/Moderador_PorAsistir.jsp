@@ -1,31 +1,33 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <spring:url value="/resources" var="urlPublic" />
-
+<spring:url value="/" var="rootUrl" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE jsp>
 <html lang="en">
 
-<head>
+    <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-  <title>Eventos_Publicos</title>
+        <title>Eventos_Asistidos</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
 
-  <style>
+        <style>
             .color{
                 background-color: black;
+                padding-top: 0px !important; 
             }
-             .bd-sidebar{
+            .bd-sidebar{
                 position: sticky; 
                 height: calc(-4rem + 100vh); 
                 z-index: 1000;
@@ -34,262 +36,134 @@
             .flex-xl-nowrap{
                 -ms-flex-nowrap: nowrap !important;
                 flex-wrap: nowrap !important ;
-                
+
             }
+
         </style>
+        <link href="${urlPublic}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-</head>
+        <!-- Page level plugin CSS-->
+        <link href="${urlPublic}/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
-<body class="color" >
+        <!-- Custom styles for this template-->
+        <link href="${urlPublic}/css/sb-admin.css" rel="stylesheet">
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="eventosPublicxs1">EVENT PUCP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          
-          <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href=" "> <strong> ROBERTO BOLAÑO </strong> <span class="sr-only">(current)</span></a>
+    </head>
 
-                            <div class="dropdown-menu bg-dark border-dark" aria-labelledby="navbarDropdown">
-                               
-                                <a class="dropdown-item bg-dark text-light" href=" " >  Salir </a>
+    <body class="color" >
 
+        <jsp:include page="BarraSuperiorModerador.jsp" />
+
+        <!-- Page Content -->
+        <div id="wrapper"> 
+
+            <jsp:include page="MenuModerador.jsp" />
+
+            <div id="content-wrapper">
+
+                <div class="container-fluid">
+
+                    <div class="card">
+                        
+
+                        <div class="card-body">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Nombre...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-secondary" type="button">Buscar</button>
+                                </span>
                             </div>
 
-                        </li> 
-         
-        </ul>
-      </div>
-    </div>
-  </nav>
+                            <p>  </p>
 
-  <!-- Page Content -->
-  <div class="container">
-
-    <div class="row flex-xl-nowrap">
-
-      <div class="col-lg-3 ">
-        <h1 class="my-4"></h1>
-        <div class="list-group text-green">
-          <a href="eventosPublicxs1" class="list-group-item  ">Eventos Públicos</a>
-          <a href="misEventos1" class="list-group-item ">Mis Eventos</a>
-          <a href="crearEvento1" class="list-group-item ">Crear Evento</a>
-          <a href="eventosAsistidos1" class="list-group-item active ">Eventos Asistidos</a>
-          <a href="evaluar" class="list-group-item">Evaluar Eventos</a>
- 
-        </div>
-
-        <p>
-          
-        </p>
-
-          <div class="list-group">
-
-          <a href="#" class="list-group-item active"> Categorías </a>
-          <a href="#" class="list-group-item"> Eventos Culturales </a>
-          <a href="#" class="list-group-item"> Eventos Deportivos </a>
-          <a href="#" class="list-group-item"> Eventos Artísticos </a>
-          <a href="#" class="list-group-item"> Eventos Musicales </a>
-          <a href="#" class="list-group-item"> Eventos Políticos</a>
-          <a href="#" class="list-group-item"> Eventos Religiosos </a>
-          <a href="#" class="list-group-item"> Eventos Culinarios </a>
-          <a href="#" class="list-group-item"> Eventos Bienestar </a>
-          <a href="#" class="list-group-item"> Eventos Recreacionales </a>
-          <a href="#" class="list-group-item"> Otros </a>
-          
-          
-  
-        </div>
-
-
-        <div>
-          
-
-        </div>
-
-      </div>
-      <!-- /.col-lg-3 -->
-
-      <div class="col-lg-9">
-          <p>   </p>
-          <div class="card">
-  <div class="card-header ">
-    
-    <ul class="nav nav-tabs card-header-tabs">
-    <li class="nav-item">
-    <a class="nav-link " href="eventosAsistidos">Eventos Por Asistir</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link active" href="eventosAsistidos">Eventos Asistidos</a>
-    </li>
-    </ul>
-  </div>
-
-  <div class="card-body">
-
-        <div class="input-group">
-              <input type="text" class="form-control" placeholder="Nombre...">
-              <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">Buscar</button>
-              </span>
-        </div>
-
-        <p>  </p>
-
-        <div class="dropdown">
-
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filtrar Por Tiempo
-        </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Próximos 7 Días</a>
-            <a class="dropdown-item" href="#">Próximos 15 Días</a>
-            <a class="dropdown-item" href="#">Próximos 30 Días</a>
-            <a class="dropdown-item" href="#">Próximos 2 Meses</a>
-            <a class="dropdown-item" href="#">Próximos 6 Meses</a>
-        </div>
-        </div>
-
-            <div class="row">
-
-              <div class="col-lg-6"> 
-        
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-            
-                            <div class="d-flex ">
-                                <a href="despues31" ><h3 class="text-left" > <font color="black"> Teatro PUCP</font>  </h3> </a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: ARTE </button>
-                                
-
-                            </div>
-            <h5> 17 Abril / Complejo Polideportivo </h5>
-            <p> Representacion teatral de El Rey Lear por parte de los estudiantes de la faculta de Derecho. </p>
-        
-  
-          </div>
-        </div>
-
-      </div>
-
-      <div class="col-lg-6"> 
-
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-           
-                            <div class="d-flex">
-                                 <a href="despues31" ><h3 class="text-left" > <font color="black"> Baila Por Tu Salud</font></h3></a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: BIENESTAR </button>
-                                
-
-                            </div>
-            <h5> 19 Abril / Losas Deportivas PUCP </h5>
-            <p> Actividad de baile y charla nutricional donde puedes hacer hora en el jueves cultural. </p>
-
-            
-          </div>
-        </div>
-
-      </div>
-
-      <div class="col-lg-6"> 
-
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-              <div class="d-flex">
-                                <a href="despues31" ><h3 class="text-left" > <font color="black"> Coloquio De Física</font></h3></a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: CIENCIA </button>
-                                
-
-                            </div>
-            <h5> 20  Abril / Facultad de Física </h5>
-            <p> Conversatorio sobre optica por Katia Zegarra. </p>
-
-    
-                      </div>
-        </div>
-
-      </div>
-
-       <div class="col-lg-6"> 
-
-        <div class="card mt-4">
-          <img class="card-img-top img-fluid" src="http://placehold.it/1500x300" alt="">
-          <div class="card-body">
-
-              <div class="d-flex">
-                                <a href="despues31" ><h3 class="text-left" > <font color="black"> Coloquio De Física</font></h3></a>
-                                <button type="button" class=" btn btn-sm btn-light mb-4 ml-auto mr-4 p-2 text-dark float-right border-secondary rounded-pill" > Categoría: CIENCIA </button>
-                                
-
-                            </div>
-            <h5> 20  Abril / Facultad de Física </h5>
-            <p> Conversatorio sobre optica por Katia Zegarra. </p>
-       
-     
-                      </div>
-        </div>
-
-      </div>
-
-
-
-      </div>
-
-      <div>
-      <p>                       </p>
-
-      <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#">&larr; Anterior</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">6</a></li>
-                            <li class="page-item"><a class="page-link" href="#">7</a></li>
-                            <li class="page-item"><a class="page-link" href="#">8</a></li>
-                            <li class="page-item"><a class="page-link" href="#">9</a></li>
                             
-                            <li class="page-item">
-                                <a class="page-link" href="#">Siguiente &rarr;</a>
-                            </li>
-                        </ul>
-                    </nav>
+
+                            <div class="row">
+
+                                <c:forEach items="${listaAsistencias}" var= "listaAsistencias">
+                                    <div class="col-lg-4"> 
+
+                                        <div class="card mt-4">
+                                            <img class="card-img-top img-fluid"  style="width:1500px;height:300px;" src="${rootUrl}fileUploaded/${listaAsistencias.foto}" alt="">
+                                         
+                                            
+                                            <div class="card-body">
 
 
-    
-</div>
-</div>
-  </div>
-          
-<p>    </p>  
 
-  <p>  </p>
-</div>
+                                                <a ><h3 class="text-left" > <font color="black"> ${listaAsistencias.nombre}</font>  </h3> </a>
+                                                <h5 class="text-success" > Categoría: ${listaAsistencias.categoria.nombreCategoria} </h5>
+                                                <p>Fecha: ${listaAsistencias.fecha}</p>
+                                                <p>Inicio del evento: ${listaAsistencias.horaInicio} horas</p>
+                                                <p>Fin del evento: ${listaAsistencias.horaFin} horas </p>                                            
+                                                
+                                                
+                                                <div >
+                                                    
+                                                    <a class="btn btn-primary float-left" href="${rootUrl}moderador/detallesAsistidos1/${listaAsistencias.id}">Detalles</a> 
+                                                    
+                                              
+                                                </div>     
+                                            </div>
+                                        </div>
 
-  <!-- /.container -->
+                                    </div>
 
-  <!-- Footer -->
-  
-  <!-- Bootstrap core JavaScript -->
-  <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
-  <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                                </c:forEach>
 
-</body>
+
+                            </div>
+
+                            <div>
+                                <p>                       </p>
+
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+
+                                        <c:forEach var="i" begin="1" end="${cantDePaginas}" varStatus="loop">
+
+                                            <c:if test="${paginaActual == i}">
+                                                <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
+                                                </c:if>
+                                                <c:if test="${paginaActual != i}">
+                                                <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/eventosAsistidos/${sessionScope.usuario.id}?inicio=${i}">${i}</a></li>                                                
+                                                </c:if>
+
+                                        </c:forEach>
+
+                                    </ul>
+                                </nav>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <p>  </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- OJO todas estas lineas son importantes para el menu  -->                    
+        <!-- Bootstrap core JavaScript-->
+        <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
+        <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="${urlPublic}/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Page level plugin JavaScript-->
+        <script src="${urlPublic}/vendor/chart.js/Chart.min.js"></script>
+        <script src="${urlPublic}/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="${urlPublic}/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="${urlPublic}/js/sb-admin.min.js"></script>
+
+        <!-- Demo scripts for this page-->
+        <script src="${urlPublic}/js/demo/datatables-demo.js"></script>
+        <script src="${urlPublic}/js/demo/chart-area-demo.js"></script>
+    </body>
 
 </html>

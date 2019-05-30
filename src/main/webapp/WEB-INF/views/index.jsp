@@ -23,8 +23,31 @@
     </center>
     <div id="cuadro" class="container well">
         <div id="cabecera"><h4><strong>Ingreso al sistema de eventos PUCP</strong></h4></div>
+          <c:if test="${msg != null}">
+                          <div class=" alert-success" role="alert">${msg}</div>
+                      </c:if>
             <div id="cuerpo">
-                <form method="post" action="usuario/listar">
+               
+                
+            <form class="form-signin" action="${rootUrl}login" method="post"> 
+               
+                <div id="nuevo"><strong>Ingresar</strong></div>
+                
+                <label for="username" class="sr-only">Correo</label>
+                <input type="text" id="username" name="correo" class="form-control" placeholder="Correo PUCP" required autofocus>
+                <p> </p>
+                <label for="password" class="sr-only">Contraseña</label>
+                <input type="password" id="password" name="contrasena" class="form-control" placeholder="Contraseña" required>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                <p> </p>
+                
+                <input type="submit" class="btn btn-default center-block" value="Ingresar"/>
+            </form>
+                
+                <a href="${rootUrl}recuperarContrasena">Olvide mi contraseña</a>
+                
+                
+              <!--   <form method="post" action="usuario/sesion">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Correo PUCP</label>
                       <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
@@ -35,11 +58,11 @@
                     </div>
                     
                     
-                    <button type="submit" class="btn btn-default center-block">Ingresar (Usuario) </button>
+                    <input type="submit" class="btn btn-default center-block" value="Ingresar(Usuario)"/>
             </form>
                 
                 
-                 <form method="post" action="eventosPublicos1">
+                 <form method="post" action="moderador/sesion">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Correo PUCP</label>
                       <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
@@ -50,7 +73,7 @@
                     </div>
                     
                     
-                    <button type="submit" class="btn btn-default center-block">Ingresar (Moderador) </button>
+                     <input type="submit" class="btn btn-default center-block" value="Ingresar (Moderador)">
             </form>
                 
                 
@@ -66,7 +89,7 @@
                     
                     
                     <button type="submit" class="btn btn-default center-block">Ingresar (Administrador) </button>
-            </form>
+            </form> <!-->
                 
                 
                 </div>

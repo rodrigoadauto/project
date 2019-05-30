@@ -6,26 +6,27 @@
 <!DOCTYPE jsp>
 <html lang="en">
 
-<head>
+    <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-  <title>Eventos_Publicos</title>
+        <title>Eventos_Publicos</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="${urlPublic}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="${urlPublic}/css/shop-item.css" rel="stylesheet">
 
-  <style>
+        <style>
             .color{
                 background-color: black;
+                padding-top: 0px !important; 
             }
-             .bd-sidebar{
+            .bd-sidebar{
                 position: sticky; 
                 height: calc(-4rem + 100vh); 
                 z-index: 1000;
@@ -34,185 +35,135 @@
             .flex-xl-nowrap{
                 -ms-flex-nowrap: nowrap !important;
                 flex-wrap: nowrap !important ;
-                
+
             }
         </style>
 
-</head>
+    </head>
 
-<body class="color" >
+    <body class="color" >
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="eventosPublicxs1">EVENT PUCP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          
-          <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href=" "> <strong> ROBERTO BOLAÑO </strong> <span class="sr-only">(current)</span></a>
 
-                            <div class="dropdown-menu bg-dark border-dark" aria-labelledby="navbarDropdown">
-                               
-                                <a class="dropdown-item bg-dark text-light" href=" " >  Salir </a>
+        <jsp:include page="BarraSuperiorModerador.jsp" />
 
-                            </div>
+        <!-- Page Content -->
+        <div id="wrapper"> 
 
-                        </li> 
-         
-        </ul>
-      </div>
-    </div>
-  </nav>
+            <jsp:include page="MenuModerador.jsp" />
 
-  <!-- Page Content -->
-  <div class="container">
+            <div id="content-wrapper">
 
-    <div class="row flex-xl-nowrap">
 
-      <div class="col-lg-3 ">
-        <h1 class="my-4"></h1>
-        <div class="list-group text-green">
-          <a href="eventosPublicxs1" class="list-group-item  ">Eventos Públicos</a>
-          <a href="misEventos1" class="list-group-item ">Mis Eventos</a>
-          <a href="crearEvento1" class="list-group-item active">Crear Evento</a>
-          <a href="eventosAsistidos1" class="list-group-item ">Eventos Asistidos</a>
-          <a href="evaluar" class="list-group-item">Evaluar Eventos</a>
- 
+                <div class="container-fluid">
+
+                    <div class="card">
+                        <div class="card-header "> <strong> CREAR EVENTO</strong> </div>
+
+                        <div class="card-body">
+
+
+                            <form>
+
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Foto Del Evento</label>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <img class="card-img-top img-fluid" src="http://placehold.it/900x300" alt="">
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <p class="invisible"> noborrar </p>
+                                            <p class="invisible"> noborrar </p>
+
+                                            <a class="btn btn-secondary btn " href="#" role="button">Subir Foto</a> 
+                                        </div>
+
+                                        <h6 class="invisible"> no borrar </h6>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nombre del evento</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Ubicación</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Seleccionar Categoría del Evento</label>
+
+                                        <div class="dropdown">
+
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Categorías
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">Cultural</a>
+                                                <a class="dropdown-item" href="#">Bienestar</a>
+                                                <a class="dropdown-item" href="#">Ciencia</a>
+                                                <a class="dropdown-item" href="#">Fiesta</a>
+                                                <a class="dropdown-item" href="#">Otros</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="dd/mm/aaaa">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Hora inicio</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="hh:mm">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Hora fin</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="hh:mm">
+                                    </div>
+
+
+                                    <div class="d-flex ">
+                                        <a class="btn btn-secondary btn-lg mr-auto float-left" href="eventosPublicxs1" role="button">Regresar</a> 
+                                        <a class="btn btn-secondary btn-lg float-right" href="misEventos1" role="button">Crear Evento</a> 
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+
+                    <p>  </p>
+                </div>
+            </div>
         </div>
 
-        <p>
-          
-        </p>
+        <!-- Bootstrap core JavaScript-->
+        <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
+        <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-          <div class="list-group">
+        <!-- Core plugin JavaScript-->
+        <script src="${urlPublic}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-          <a href="#" class="list-group-item active"> Categorías </a>
-          <a href="#" class="list-group-item"> Eventos Culturales </a>
-          <a href="#" class="list-group-item"> Eventos Deportivos </a>
-          <a href="#" class="list-group-item"> Eventos Artísticos </a>
-          <a href="#" class="list-group-item"> Eventos Musicales </a>
-          <a href="#" class="list-group-item"> Eventos Políticos</a>
-          <a href="#" class="list-group-item"> Eventos Religiosos </a>
-          <a href="#" class="list-group-item"> Eventos Culinarios </a>
-          <a href="#" class="list-group-item"> Eventos Bienestar </a>
-          <a href="#" class="list-group-item"> Eventos Recreacionales </a>
-          <a href="#" class="list-group-item"> Otros </a>
-          
-          
-  
-        </div>
+        <!-- Page level plugin JavaScript-->
+        <script src="${urlPublic}/vendor/chart.js/Chart.min.js"></script>
+        <script src="${urlPublic}/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="${urlPublic}/vendor/datatables/dataTables.bootstrap4.js"></script>
 
+        <!-- Custom scripts for all pages-->
+        <script src="${urlPublic}/js/sb-admin.min.js"></script>
 
-        <div>
-          
+        <!-- Demo scripts for this page-->
+        <script src="${urlPublic}/js/demo/datatables-demo.js"></script>
+        <script src="${urlPublic}/js/demo/chart-area-demo.js"></script>
 
-        </div>
-
-      </div>
-      <!-- /.col-lg-3 -->
-
-      <div class="col-lg-9">
-          
-          <p>    </p>  
-<div class="card">
-  <div class="card-header "> <strong> CREAR EVENTO</strong> </div>
-
-  <div class="card-body">
-
-       
-            <form>
-
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Foto Del Evento</label>
-              <div class="row">
-                <div class="col-lg-6">
-                   <img class="card-img-top img-fluid" src="http://placehold.it/900x300" alt="">
-              </div>
-
-              <div class="col-lg-6">
-                  <p class="invisible"> noborrar </p>
-                  <p class="invisible"> noborrar </p>
-                  
-                  <a class="btn btn-secondary btn " href="#" role="button">Subir Foto</a> 
-              </div>
-              
-               <h6 class="invisible"> no borrar </h6>
-
-            </div>
-            
-            <div class="form-group">
-              <label for="exampleInputEmail1">Nombre del evento</label>
-              <input type="text" class="form-control" id="exampleInputEmail1">
-            </div>
-
-             <div class="form-group">
-              <label for="exampleInputEmail1">Ubicación</label>
-              <input type="text" class="form-control" id="exampleInputEmail1">
-            </div>
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Seleccionar Categoría del Evento</label>
-
-             <div class="dropdown">
-
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categorías
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Cultural</a>
-              <a class="dropdown-item" href="#">Bienestar</a>
-              <a class="dropdown-item" href="#">Ciencia</a>
-              <a class="dropdown-item" href="#">Fiesta</a>
-              <a class="dropdown-item" href="#">Otros</a>
-          </div>
-          </div>
-        </div>
-
-            <div class="form-group">
-              <label for="exampleInputEmail1">Fecha</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="dd/mm/aaaa">
-            </div>
-
-                <div class="form-group">
-              <label for="exampleInputEmail1">Hora inicio</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="hh:mm">
-            </div>
-
-                <div class="form-group">
-              <label for="exampleInputEmail1">Hora fin</label>
-              <input type="text" class="form-control" id="exampleInputEmail1" placeholder="hh:mm">
-            </div>
-               
-            
-            <div class="d-flex ">
-                <a class="btn btn-secondary btn-lg mr-auto float-left" href="eventosPublicxs1" role="button">Regresar</a> 
-                <a class="btn btn-secondary btn-lg float-right" href="misEventos1" role="button">Crear Evento</a> 
-
-                            </div>
-   </div>
- </form>
-</div>
-</div>
-
-
- 
-
-  <p>  </p>
-</div>
-
-  <!-- /.container -->
-
-  <!-- Footer -->
-  
-  <!-- Bootstrap core JavaScript -->
-  <script src="${urlPublic}/vendor/jquery/jquery.min.js"></script>
-  <script src="${urlPublic}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
+    </body>
 
 </html>
