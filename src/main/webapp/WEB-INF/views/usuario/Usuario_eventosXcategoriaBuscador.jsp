@@ -120,13 +120,12 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        
                         <div class="card-header "> <strong>Categorias</strong> </div>
 
                         <div class="card-body">
 
-                            <form method="GET" action="${rootUrl}usuario/buscarEventoPorCategoria" >
-
+                            <form method="GET" action="${rootUrl}usuario/buscarEventoPorCategoria">
+                                
                                 <div class="row">
                                     <div class="col-sm-11">
                                         <input type="text" class="form-control" name ="nombre" placeholder="Buscador por nombre de evento" value="${search}"/>
@@ -139,11 +138,8 @@
                                 </div>
                             </form>
                             <br>
-                            <c:if test="${mensaje != null}">
-                                <div class="alert alert-danger" role="alert"> ${mensaje}</div>
-                            </c:if>
-                            <div class="row">
 
+                            <div class="row">
 
                                 <c:forEach items="${listaEventosCategoria}" var= "listaEvento">
 
@@ -206,7 +202,7 @@
                                             <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
                                             </c:if>
                                             <c:if test="${paginaActual != i}">
-                                            <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/eventosCategoria/${categoria}?inicio=${i}">${i}</a></li>                                                
+                                            <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/buscarEventoPorCategoria?id=${categoria}&inicio=${i}&nombre=${search}">${i}</a></li>                                                
                                             </c:if>
 
                                     </c:forEach>

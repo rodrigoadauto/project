@@ -21,68 +21,24 @@
     </head>
     <body>
 
-        <div class="row">
-            <div></div>
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-                </li>
-                
-                <li class="nav-item dropdown justify-content-end">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
 
-                <div class="col-sm-2">
-                    <button class="btn btn-outline-primary">Usuario</button>
-                </div>
-            </ul>
-        </div>
-
-
-
-
-
-
-        <nav class="navbar navbar-expand navbar-dark negro static-top">
-
-            <a class="navbar-brand mr-1" href="#"><p class="text-light">EVENT PUCP</p></a>
-
-
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color">
+            <a class="navbar-brand" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EVENT PUCP</font></font></a>
+            <!--
             <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle"  href="#">
-
                 <i class="fas fa-bars"></i>
-
-
-            </button>
-
-
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+            </button> !-->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                 <ul class="navbar-nav ml-auto">
-
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href=" "> <strong><p class="text-light"> ${sessionScope.usuario.nombre} ${sessionScope.usuario.apellido} </p></strong> <span class="sr-only">(current)</span></a>
-
-                        <div class="dropdown-menu bg-dark border-dark" aria-labelledby="navbarDropdown">
-
-                            <a class="dropdown-item bg-dark text-light" href="${rootUrl} " >  Salir </a>
-
-
+                        <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ${sessionScope.usuario.nombre} ${sessionScope.usuario.apellido} </font></font></a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                            <a class="dropdown-item waves-effect waves-light" href="${rootUrl}" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cerrar sesión</font></font></a>
                         </div>
-
-                    </li> 
-
+                    </li>
                 </ul>
             </div>
-
         </nav>
-
     </body>
 </html>

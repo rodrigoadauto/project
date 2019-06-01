@@ -3,11 +3,9 @@
 <spring:url value="/resources" var="urlPublic" />
 <spring:url value="/" var="rootUrl" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<spring:url value="/" var="rootUrl" />
-
 
 <!DOCTYPE jsp>
-<html>
+<html >
 
     <head>
 
@@ -16,13 +14,13 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Eventos_Publicos</title>
+        <title>Eventos_Asistidos</title>
 
         <jsp:include page="codigolinks.jsp" />
 
         <script>
             $(document).ready(function () {
-                $("#eventosPublicos").prop('class', 'nav-item active');
+
 
                 $("#sidebarToggle").click(function () {
 
@@ -106,7 +104,6 @@
 
     <body class="color" >
 
-
         <jsp:include page="BarraSuperiorUsuario.jsp" />
 
         <!-- Page Content -->
@@ -116,21 +113,19 @@
 
             <div id="content-wrapper">
 
-
                 <div class="container-fluid">
 
                     <div class="card">
-                        
-                        <div class="card-header "> <strong>Categorias</strong> </div>
 
+                        <div class="card-header "> <strong> EVENTOS ASISTIDOS</strong> </div>
                         <div class="card-body">
 
-                            <form method="GET" action="${rootUrl}usuario/buscarEventoPorCategoria" >
+                            <form method="GET" action="${rootUrl}usuario/buscarEventosOcurridos" >
 
                                 <div class="row">
                                     <div class="col-sm-11">
                                         <input type="text" class="form-control" name ="nombre" placeholder="Buscador por nombre de evento" value="${search}"/>
-                                        <input type="hidden" value="${categoria}" name="id"/>
+                                        <input type="hidden" value="${id}" name="id"/>
                                     </div>
                                     <span class="input-group-btn">
 
@@ -138,14 +133,16 @@
                                     </span>
                                 </div>
                             </form>
-                            <br>
+
+                            <p>  </p>
                             <c:if test="${mensaje != null}">
                                 <div class="alert alert-danger" role="alert"> ${mensaje}</div>
                             </c:if>
+
+
                             <div class="row">
 
-
-                                <c:forEach items="${listaEventosCategoria}" var= "listaEvento">
+                                <c:forEach items="${listaAsistencias}" var= "listaEvento">
 
 
                                     <div class="col-sm-4">
@@ -191,38 +188,39 @@
 
 
                                 </c:forEach>
+
+
+                            </div>
+
+                            <div>
+                                <p>                       </p>
+
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+
+                                        <c:forEach var="i" begin="1" end="${cantDePaginas}" varStatus="loop">
+
+                                            <c:if test="${paginaActual == i}">
+                                                <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
+                                                </c:if>
+                                                <c:if test="${paginaActual != i}">
+                                                <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/buscarEventosOcurridos?id=${id}&inicio=${i}&nombre=${search}">${i}</a></li>                                                
+                                                </c:if>
+
+                                        </c:forEach>
+
+                                    </ul>
+                                </nav>
+
+
+
                             </div>
                         </div>
-
-                        <div>
-                            <p>                       </p>
-
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-
-                                    <c:forEach var="i" begin="1" end="${cantDePaginas}" varStatus="loop">
-
-                                        <c:if test="${paginaActual == i}">
-                                            <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
-                                            </c:if>
-                                            <c:if test="${paginaActual != i}">
-                                            <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/eventosCategoria/${categoria}?inicio=${i}">${i}</a></li>                                                
-                                            </c:if>
-
-                                    </c:forEach>
-
-                                </ul>
-                            </nav>
-
-
-
-
-                        </div>
                     </div>
+                    <p>  </p>
                 </div>
             </div>
         </div>
-
         <jsp:include page="codigojs.jsp" />
     </body>
 

@@ -22,8 +22,8 @@
 
         <script>
             $(document).ready(function () {
-                $("#misEventos").prop('class', 'nav-item active');
                 
+
                 $("#sidebarToggle").click(function () {
 
 
@@ -34,8 +34,11 @@
                     }
 
                 });
-
+                $(function () {
+                    $('[data-toggle="popover"]').popover()
+                })
             })
+
 
 
         </script>
@@ -54,6 +57,47 @@
                 -ms-flex-nowrap: nowrap !important;
                 flex-wrap: nowrap !important ;
 
+            }
+            .tamano_img{
+                width: 347px;
+                height: 240px;
+            }
+            .movie__label {
+                display: flex;
+                position: absolute;
+                z-index: 2;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .titulo{
+                align-items: center;
+                justify-content: center;
+                z-index: 4;
+
+            }
+            .boton1{
+
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            .boton2{
+
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .transparente::before{
+                opacity: 0.5;
+            }
+            .transparente::after{
+                opacity: .5;
             }
         </style>
 
@@ -75,55 +119,74 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header "> <strong> EVENTOS PÚBLICOS</strong> </div>
+                        <div class="card-header "> <strong> Mis Eventos Proximos</strong> </div>
 
                         <div class="card-body">
 
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Nombre...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-secondary" type="button">Buscar</button>
-                                </span>
-                            </div>
+                            <form method="GET" action="${rootUrl}usuario/buscarMisEventos" >
+
+                                <div class="row">
+                                    <div class="col-sm-11">
+                                        <input type="text" class="form-control" name ="nombre" placeholder="Buscador por nombre de evento" value="${search}"/>
+                                        <input type="hidden" value="${id}" name="id"/>
+                                    </div>
+                                    <span class="input-group-btn">
+
+                                        <input type="submit" class="btn btn-primary" value="Buscar"/>
+                                    </span>
+                                </div>
+                            </form>
 
                             <p>  </p>
 
-
+                            <c:if test="${mensaje != null}">
+                                <div class="alert alert-danger" role="alert"> ${mensaje}</div>
+                            </c:if>
                             <div class="row">
-                                <c:forEach items="${listaMisEventos}" var= "listaMisEventos">
-                                    <div class="col-lg-4"> 
-
-                                        <div class="card mt-4">
-                                            <img class="card-img-top img-fluid"  style="width:1500px;height:300px;" src="${rootUrl}fileUploaded/${listaMisEventos.foto}" alt="">
-                                            <div class="card-body">
+                                <c:forEach items="${listaEvento}" var= "listaEvento">
 
 
-                                                <a ><h3 class="text-left" > <font color="black"> ${listaMisEventos.nombre}</font>  </h3> </a>
-                                                <h5 class="text-success" > Categoría: ${listaMisEventos.categoria.nombreCategoria} </h5>
-                                                <p>Fecha: ${listaMisEventos.fecha}</p>
-                                                <p>Inicio del evento: ${listaMisEventos.horaInicio} horas</p>
-                                                <p>Fin del evento: ${listaMisEventos.horaFin} horas </p>                                            
-
-
-                                                <div >
+                                    <div class="col-sm-4">
 
 
 
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row no-gutters">
+                                                <div class="col-sm-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline" style="margin-bottom:0px ">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-dark btn-block">   ${listaEvento.nombre} </button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    </form>
+                                                </div>
+                                                <div class="col-sm-12 ">
+
+                                                    <img src="${rootUrl}fileUploaded/${listaEvento.foto}" class=" card-img-top img-responsive tamano_img">
+                                                    <button type="button" class="btn btn-outline-primary boton1 transparente" data-toggle="popover" title="${listaEvento.descripcion}" data-placement="left" 
+                                                            data-content="Inicio del evento: ${listaEvento.horaInicio} horas  /                         
+                                                            Fin del evento: ${listaEvento.horaFin} horas " >
+                                                        <i class="far fa-eye"></i></button>
+                                                    <button type="button" class="badge badge-pill badge-danger boton2">${listaEvento.categoria.nombreCategoria}</button>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <button type="submit"  class="btn btn-light btn-block disabled">Fecha: ${listaEvento.fecha}</button>
 
 
-                                                    <a class="btn btn-primary btn-lg float-left " href="${rootUrl}usuario/detallesMisEventos/${listaMisEventos.id}" role="button"> Ver Detalles </a>
-                                                    <a class="btn btn-danger btn-lg float-right " href="${rootUrl}usuario/eliminarEvento1/${listaMisEventos.id}" role="button"> Eliminar   </a>
+                                                </div> 
+                                                <div class="col-sm-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-outline-info btn-block">Asistir/Ver detalles</button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
+                                                    </form>
 
-
-
-
-
-                                                </div>     
+                                                </div> 
                                             </div>
                                         </div>
-
                                     </div>
+
 
                                 </c:forEach>
                             </div>
@@ -141,7 +204,7 @@
                                             <li class="page-item active"><a style="pointer-events: none;background-color: gray; color:" class="page-link" href="">${i}</a></li>                                                
                                             </c:if>
                                             <c:if test="${paginaActual != i}">
-                                            <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/misEventos/${sessionScope.usuario.id}?inicio=${i}">${i}</a></li>                                                
+                                            <li class="page-item active"><a class="page-link" href="${rootUrl}usuario/misEventos/${id}?inicio=${i}">${i}</a></li>                                                
                                             </c:if>
 
                                     </c:forEach>

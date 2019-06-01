@@ -60,7 +60,6 @@
                 width: 347px;
                 height: 240px;
             }
-
             .movie__label {
                 display: flex;
                 position: absolute;
@@ -103,19 +102,18 @@
 
     </head>
 
-    <body class="color" >
+    <body class="color">
 
         <jsp:include page="BarraSuperiorUsuario.jsp" />
 
         <!-- Page Content -->
         <div id="wrapper"> 
-
-            <jsp:include page="MenuUsuario.jsp" />
-
+            <div>
+                <jsp:include page="MenuUsuario.jsp" />
+            </div>
             <div id="content-wrapper">
 
                 <div class="container-fluid">
-
                     <div class="card">
                         <div class="card-header "> <strong> EVENTOS PÚBLICOS</strong> </div>
 
@@ -124,13 +122,12 @@
                             <form method="GET" action="${rootUrl}usuario/buscar" >
 
                                 <div class="row">
-                                    <div class="col-lg-11">
+                                    <div class="col-sm-11">
                                         <input type="text" class="form-control" name ="nombre" placeholder="Buscador por nombre de evento" value="${search}"/>
                                     </div>
                                     <span class="input-group-btn">
 
                                         <input type="submit" class="btn btn-primary" value="Buscar"/>
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                     </span>
                                 </div>
                             </form>
@@ -150,7 +147,9 @@
                             </div>
                             <br>
 
-
+                            <c:if test="${mensaje != null}">
+                                <div class="alert alert-danger" role="alert"> ${mensaje}</div>
+                            </c:if>
                             <div class="row">
 
 
@@ -163,29 +162,29 @@
 
                                         <div class="card mb-3" style="max-width: 540px;">
                                             <div class="row no-gutters">
-                                                <div class="col-md-12">
+                                                <div class="col-sm-12">
                                                     <form method="post" action="${rootUrl}usuario/detalles" class="inline" style="margin-bottom:0px ">
                                                         <input type="hidden" name="idEvento" value="${listaEvento.id}">
-                                                        <button type="submit"  class="btn btn-outline-dark btn-block">   ${listaEvento.nombre} </button>
+                                                        <button type="submit"  class="btn btn-dark btn-block">   ${listaEvento.nombre} </button>
                                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                     </form>
                                                 </div>
-                                                <div class="col-md-12">
+                                                <div class="col-sm-12 ">
 
-                                                    <img src="${rootUrl}fileUploaded/${listaEvento.foto}" class=" card-img-top img-responsive">
+                                                    <img src="${rootUrl}fileUploaded/${listaEvento.foto}" class=" card-img-top img-responsive tamano_img">
                                                     <button type="button" class="btn btn-outline-primary boton1 transparente" data-toggle="popover" title="${listaEvento.descripcion}" data-placement="left" 
-                                                            data-content="Inicio del evento: ${listaEvento.horaInicio} horas                           
+                                                            data-content="Inicio del evento: ${listaEvento.horaInicio} horas  /                         
                                                             Fin del evento: ${listaEvento.horaFin} horas " >
                                                         <i class="far fa-eye"></i></button>
                                                     <button type="button" class="badge badge-pill badge-danger boton2">${listaEvento.categoria.nombreCategoria}</button>
                                                 </div>
-                                                
-                                                <div class="col-md-12">
-                                                        <button type="submit"  class="btn btn-light btn-block disabled">Fecha: ${listaEvento.fecha}</button>
-                                                     
+
+                                                <div class="col-sm-12">
+                                                    <button type="submit"  class="btn btn-light btn-block disabled">Fecha: ${listaEvento.fecha}</button>
+
 
                                                 </div> 
-                                                <div class="col-md-12">
+                                                <div class="col-sm-12">
                                                     <form method="post" action="${rootUrl}usuario/detalles" class="inline">
                                                         <input type="hidden" name="idEvento" value="${listaEvento.id}">
                                                         <button type="submit"  class="btn btn-outline-info btn-block">Asistir/Ver detalles</button>

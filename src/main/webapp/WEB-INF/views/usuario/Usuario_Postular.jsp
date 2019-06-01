@@ -70,38 +70,40 @@
 
                     <div class="card">
                         <div class="card-header"><strong>POSTULAR A MODERADOR </strong> </div>
-                        <br>
-                        <form:form action="${rootUrl}agregarSolicitud" method="POST" modelAttribute="solicitud">
-                            <div class="form-group"> 
-                                <form:hidden path="id"  />
-                                <label for="categoria">Categoria</label>
-                                <form:select  class="form-control" path="categoria.id"
-                                              items="${listaCategorias}" itemValue="id" itemLabel="nombreCategoria"/> 
 
-                            </div>
-                            <form:hidden path="usuario.id" value="${sessionScope.usuario.id}" />
-                            <div class="form-group">
-                                <br>
-                                <label for="comment"   style="margin-left: 8px";>Ingresa el motivo por el cual deseas ser moderador de esta categoría:</label>
+                        <div class="card-body">
+                            <br>
+                            <form:form action="${rootUrl}agregarSolicitud" method="POST" modelAttribute="solicitud">
+                                <div class="form-group"> 
+                                    <form:hidden path="id"  />
+                                    <label for="categoria">Categoria</label>
+                                    <form:select  class="form-control" path="categoria.id"
+                                                  items="${listaCategorias}" itemValue="id" itemLabel="nombreCategoria"/> 
 
-                                <form:textarea
-                                    id="comment"
-                                    class="form-control"
-                                    path="justificacion"
-                                    rows="5"
-                                    placeholder="Ingrese la justificacion"/>
+                                </div>
+                                <form:hidden path="usuario.id" value="${sessionScope.usuario.id}" />
+                                <div class="form-group">
+                                    <br>
+                                    <label for="comment"   style="margin-left: 8px";>Ingresa el motivo por el cual deseas ser moderador de esta categoría:</label>
+
+                                    <form:textarea
+                                        id="comment"
+                                        class="form-control"
+                                        path="justificacion"
+                                        rows="5"
+                                        placeholder="Ingrese la justificacion"/>
 
 
 
-                                <div class="valid-feedback">Valid.</div>
-                                <div class="invalid-feedback">Please fill out this field.</div>
-                            </div>
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">Please fill out this field.</div>
+                                </div>
 
-                            <button type="submit" class="btn btn-primary">Enviar solicitud </button>
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        </form:form>
-
-                    </div>+
+                                <button type="submit" class="btn btn-primary">Enviar solicitud </button>
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form:form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

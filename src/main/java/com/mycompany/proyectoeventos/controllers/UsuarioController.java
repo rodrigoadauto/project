@@ -77,16 +77,6 @@ public class UsuarioController {
         return "redirect:/usuario/listar";
     }
 
-    @GetMapping("usuario/listaFiltroBase")
-    public String listadoFiltradoBase(Model model, RedirectAttributes attr) {
-
-//
-//        model.addAttribute("cantDePaginas",  attr.getFlashAttributes().get("cantDePaginas"));
-//        model.addAttribute("listaEvento", attr.getFlashAttributes().get("listaEvento"));
-//        model.addAttribute("paginaActual", attr.getFlashAttributes().get("paginaActual"));
-        return "usuario/Usuario_Eventos_Publicos";
-    }
-
     //Listado Eventos Publicos Usuario
     @GetMapping("usuario/listar")
     public String eventoListar(Model model,
@@ -99,14 +89,14 @@ public class UsuarioController {
             try {
                 inicioNum = Integer.parseInt(inicio);
                 if (inicioNum < 0) {
-
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
                     return "redirect:/usuario/listar";
                 } else if (inicioNum > 0) {
                     inicioNum--;
                 }
 
             } catch (NumberFormatException e) {
-
+                attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
                 return "redirect:/usuario/listar";
             }
 
@@ -115,9 +105,9 @@ public class UsuarioController {
         double paginas = (double) eventoRepository.contador();
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
-        
-        if(cantDePaginas < inicioNum){
-            
+
+        if (cantDePaginas <= inicioNum) {
+
             return "redirect:/usuario/listar";
         }
 
@@ -126,245 +116,565 @@ public class UsuarioController {
 
         model.addAttribute("listaEvento", listaEvento);
         model.addAttribute("paginaActual", ++inicioNum);
-//        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-//
-//        attr.addFlashAttribute("listaEvento", listaEvento);
-//        attr.addFlashAttribute("paginaActual", ++inicio);
-
-//        return "redirect:/usuario/listaFiltroBase";
-//        return "usuario/ejemplo";
-//        if (inicio++ > cantDePaginas) {
-//            return "usuario/Usuario_Eventos_Publicos";
-//        } else if (inicio < 0) {
-//            return "usuario/Usuario_Eventos_Publicos";
-//        }
         return "usuario/Usuario_Eventos_Publicos";
     }
 
 //Buscar de acuerdo al nombre para la lista de Eventos Publicos(sin filtros de TIempo)
     @GetMapping("usuario/buscar")
     public String buscarEvento(Model model, @RequestParam(name = "nombre") String nombre,
-            @RequestParam(name = "inicio", required = false) Integer inicio, RedirectAttributes attr) {
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr) {
 
-        if (inicio == null) {
-            inicio = 0;
-        } else if (inicio > 0) {
-            inicio--;
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/listar";
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
+                return "redirect:/usuario/listar";
+            }
+
         }
-
         double paginas = (double) eventoRepository.findContadorBuscadorBase(nombre);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaEvento = eventoRepository.findBuscadorBase(nombre, inicio * 6, 6);
-//        model.addAttribute("listaEvento", listaEvento);
-//        model.addAttribute("search", nombre);
-        attr.addFlashAttribute("listaEvento", listaEvento);
-        attr.addFlashAttribute("search", nombre);
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+        if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/buscar?nombre=";
+        }
 
-        return "redirect:/usuario/buscadorFiltroBase";
-    }
-
-    @GetMapping("usuario/buscadorFiltroBase")
-    public String buscadorFiltradoBase() {
+        List<Evento> listaEvento = eventoRepository.findBuscadorBase(nombre, inicioNum * 6, 6);
+        model.addAttribute("listaEvento", listaEvento);
+        model.addAttribute("search", nombre);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
 
         return "usuario/Usuario_Eventos_Publicos_buscadorPublico";
     }
 
     @GetMapping("usuario/filtroTiempo")
     public String filtrarTiempo(Model model, @RequestParam(name = "tiempo", required = false) String tiempoLetra,
-            @RequestParam(name = "inicio", required = false) Integer inicio, RedirectAttributes attr) {
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr) {
 
-        if (inicio == null) {
-            inicio = 0;
-        } else if (inicio > 0) {
-            inicio--;
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/listar";
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
+                return "redirect:/usuario/listar";
+            }
+
         }
+        int tiempo = 0;
+        if (tiempoLetra != null) {
+            try {
+                tiempo = Integer.parseInt(tiempoLetra);
+                if (tiempo < 0) {
+                    attr.addFlashAttribute("mensaje", "Tiempo fuera de rango");
+                    return "redirect:/usuario/listar";
+                } else if (tiempo > 361) {
+                    attr.addFlashAttribute("mensaje", "Tiempo fuera de rango");
+                    return "redirect:/usuario/listar";
+                }
 
-        int tiempo = Integer.valueOf(tiempoLetra);
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con el tiempo");
+                return "redirect:/usuario/listar";
+            }
+
+        }
 
         double paginas = (double) eventoRepository.contadorTiempo(tiempo);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
-        int cantDePaginas2 = (int) cantPorPaginaDouble;
+        int cantDePaginas = (int) cantPorPaginaDouble;
 
-//        model.addAttribute("cantDePaginas2", cantDePaginas2);
-//        model.addAttribute("tiempo",tiempo);
-        List<Evento> listaEvento2 = eventoRepository.findFechaBetween(tiempo, inicio * 6, 6);
+        if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/listar";
+        }
 
-//        model.addAttribute("listaEvento2", listaEvento2);
-//        model.addAttribute("paginaActual", ++inicio);
-        attr.addFlashAttribute("cantDePaginas2", cantDePaginas2);
-        attr.addFlashAttribute("tiempo", tiempo);
-        attr.addFlashAttribute("listaEvento2", listaEvento2);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("tiempo", tiempo);
+        List<Evento> listaEvento2 = eventoRepository.findFechaBetween(tiempo, inicioNum * 6, 6);
 
-//        return "usuario/Usuario_Eventos_Publicos_filtroTiempo";
-        return "redirect:/usuario/listaFiltradoTiempo";
-
-    }
-
-    @GetMapping("usuario/listaFiltradoTiempo")
-    public String listadoFiltradoTiempo() {
+        model.addAttribute("listaEvento", listaEvento2);
+        model.addAttribute("paginaActual", ++inicioNum);
 
         return "usuario/Usuario_Eventos_Publicos_listaFiltradoTiempo";
+
     }
 
     @GetMapping("usuario/buscarPorFiltro")
     public String buscarEventoPorFiltro(Model model, @RequestParam(name = "nombre") String nombre,
-            @RequestParam(name = "inicio", required = false) Integer inicio, RedirectAttributes attr,
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr,
             @RequestParam(name = "tiempo", required = false) String tiempoLetra) {
 
-        if (inicio == null) {
-            inicio = 0;
-        } else if (inicio > 0) {
-            inicio--;
-        }
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/listar";
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
 
-        int tiempo = Integer.valueOf(tiempoLetra);
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
+                return "redirect:/usuario/listar";
+            }
+
+        }
+        int tiempo = 0;
+        if (tiempoLetra != null) {
+            try {
+                tiempo = Integer.parseInt(tiempoLetra);
+                if (tiempo < 0) {
+                    attr.addFlashAttribute("mensaje", "Tiempo fuera de rango");
+                    return "redirect:/usuario/listar";
+                } else if (tiempo > 361) {
+                    attr.addFlashAttribute("mensaje", "Tiempo fuera de rango");
+                    return "redirect:/usuario/listar";
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con el tiempo");
+                return "redirect:/usuario/listar";
+            }
+
+        }
 
         double paginas = (double) eventoRepository.findContadorBuscadorFiltro(nombre, tiempo);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaEvento = eventoRepository.findBuscadorFiltro(nombre, tiempo, inicio * 6, 6);
+        if (cantDePaginas <= inicioNum) {
 
-        attr.addFlashAttribute("listaEvento", listaEvento);
-        attr.addFlashAttribute("search", nombre);
-        attr.addFlashAttribute("tiempo", tiempo);
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+            return "redirect:/usuario/listar";
+        }
 
-        return "redirect:/usuario/buscadorFiltroTiempo";
-    }
+        List<Evento> listaEvento = eventoRepository.findBuscadorFiltro(nombre, tiempo, inicioNum * 6, 6);
 
-    @GetMapping("usuario/buscadorFiltroTiempo")
-    public String buscadorFiltroTiempo() {
-
+        model.addAttribute("listaEvento", listaEvento);
+        model.addAttribute("search", nombre);
+        model.addAttribute("tiempo", tiempo);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
         return "usuario/Usuario_Eventos_Publicos_buscadorFiltroTiempo";
     }
 
     // FILTROS POR CATEGORIA con Paginacion y Fecha 
     @GetMapping("/usuario/eventosCategoria/{categoria}")
-    public String eventosCategoriaUsu(Model model, @PathVariable("categoria") int categoria, @RequestParam(name = "inicio", required = false) Integer inicio,
+    public String eventosCategoriaUsu(Model model, @PathVariable("categoria") String id, @RequestParam(name = "inicio", required = false) String inicio,
             RedirectAttributes attr) {
 
-        if (inicio == null) {
-            inicio = 0;
+        int idNum = 1;
+        if (id != null) {
+            try {
+                idNum = Integer.parseInt(id);
+                if (idNum <= 0 || idNum > 10) {
+                    attr.addFlashAttribute("mensaje", "La categoria no existe, intente de nuevo");
+                    return "redirect:/usuario/listar";
+                }
 
-        } else if (inicio > 0) {
-            inicio--;
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "Categoria invalida, intente de nuevo");
+                return "redirect:/usuario/listar";
+            }
+
         }
-        double paginas = (double) eventoRepository.contador_Categorias(categoria);
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/eventosCategoria/" + idNum;
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
+                return "redirect:/usuario/eventosCategoria/" + idNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contador_Categorias(idNum);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaEventosCategoria = eventoRepository.findByFechaAfter_Categorias(categoria, inicio * 6, 6);
+        if (cantDePaginas == 0) {
 
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("listaEventosCategoria", listaEventosCategoria);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+            return "usuario/Usuario_eventosXcategoria";
+        } else if (cantDePaginas <= inicioNum) {
 
-        return "redirect:/usuario/eventosCategoria1";
-    }
+            attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
+            return "redirect:/usuario/listar";
+        }
 
-    @GetMapping("usuario/eventosCategoria1")
-    public String eventosCategoria() {
+        List<Evento> listaEventosCategoria = eventoRepository.findByFechaAfter_Categorias(idNum, inicioNum * 6, 6);
+
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("listaEventosCategoria", listaEventosCategoria);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("categoria", idNum);
 
         return "usuario/Usuario_eventosXcategoria";
     }
 
-    @GetMapping("/usuario/eventosCategoriaOcurridos/{categoria}")
-    public String eventosCategoriaOcurridosUsu(Model model, @PathVariable("categoria") int categoria, @RequestParam(name = "inicio", required = false) Integer inicio,
-            RedirectAttributes attr) {
+    //Buscar Evento Por Catgoria
+    @GetMapping("usuario/buscarEventoPorCategoria")
+    public String buscarEventoPorCategoria(Model model, @RequestParam(name = "nombre") String nombre,
+            @RequestParam(name = "inicio", required = false) String inicio,
+            @RequestParam(name = "id", required = false) String id, RedirectAttributes attr) {
 
-        if (inicio == null) {
-            inicio = 0;
+        int idNum = 1;
+        if (id != null) {
+            try {
+                idNum = Integer.parseInt(id);
+                if (idNum <= 0 || idNum > 10) {
+                    attr.addFlashAttribute("mensaje", "No existe esta Categoria");
+                    return "redirect:/usuario/listar";
+                }
 
-        } else if (inicio > 0) {
-            inicio--;
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con el id de la Categoria");
+                return "redirect:/usuario/listar";
+            }
+
         }
-        double paginas = (double) eventoRepository.contador_Categorias1(categoria);
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/eventosCategoria/" + idNum;
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con la paginacion");
+                return "redirect:/usuario/eventosCategoria/" + idNum;
+            }
+
+        }
+
+        double paginas = (double) eventoRepository.contadorBuscadorPorCategoria(nombre, idNum);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaEventosCategoria = eventoRepository.findByFechaBefore_Categorias(categoria, inicio * 6, 6);
+        if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/eventosCategoria/" + idNum;
+        }
 
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("listaEventosCategoria", listaEventosCategoria);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+        List<Evento> listaEvento = eventoRepository.findBuscadorPorCategoria(nombre, idNum, inicioNum * 6, 6);
 
-        return "redirect:/usuario/eventoCategoriaOcurridos1";
+        model.addAttribute("listaEventosCategoria", listaEvento);
+        model.addAttribute("search", nombre);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("categoria", idNum);
+
+        return "usuario/Usuario_eventosXcategoriaBuscador";
     }
+////// No se que hace esta parte 
 
-    @GetMapping("usuario/eventoCategoriaOcurridos1")
-    public String eventosCategoriaOcurridos() {
-
-        return "usuario/Usuario_eventosXcategoria";
-    }
-
+//    @GetMapping("/usuario/eventosCategoriaOcurridos/{categoria}")
+//    public String eventosCategoriaOcurridosUsu(Model model, @PathVariable("categoria") int categoria, @RequestParam(name = "inicio", required = false) Integer inicio,
+//            RedirectAttributes attr) {
+//
+//        if (inicio == null) {
+//            inicio = 0;
+//
+//        } else if (inicio > 0) {
+//            inicio--;
+//        }
+//        double paginas = (double) eventoRepository.contador_Categorias1(categoria);
+//        double cantPorPaginaDouble = Math.ceil(paginas / 6);
+//        int cantDePaginas = (int) cantPorPaginaDouble;
+//
+//        List<Evento> listaEventosCategoria = eventoRepository.findByFechaBefore_Categorias(categoria, inicio * 6, 6);
+//
+//        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
+//        attr.addFlashAttribute("listaEventosCategoria", listaEventosCategoria);
+//        attr.addFlashAttribute("paginaActual", ++inicio);
+//
+//        return "redirect:/usuario/eventoCategoriaOcurridos1";
+//    }
+//
+//    @GetMapping("usuario/eventoCategoriaOcurridos1")
+//    public String eventosCategoriaOcurridos() {
+//
+//        return "usuario/Usuario_eventosXcategoria";
+//    }
     //// EVENTOS CREADOS POR EL USUARIO con Paginacion y Fecha
     @GetMapping("/usuario/misEventos/{idUsu}")
-    public String misEventosUsu(Model model, @PathVariable("idUsu") int idUsu, @RequestParam(name = "inicio", required = false) Integer inicio,
-            RedirectAttributes attr) {
+    public String misEventosUsu(Model model, @PathVariable("idUsu") String id, @RequestParam(name = "inicio", required = false) String inicio,
+            RedirectAttributes attr, HttpSession session) {
 
-        if (inicio == null) {
-            inicio = 0;
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
 
-        } else if (inicio > 0) {
-            inicio--;
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
         }
-        double paginas = (double) eventoRepository.contador_MisEventos(idUsu);
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/misEventos/" + idUsuarioNum;
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/misEventos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contador_MisEventos(idUsuarioNum);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
+        if (cantDePaginas == 0) {
+            return "usuario/Usuario_MisEventos";
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
 
-        List<Evento> listaMisEventos = eventoRepository.findByFechaAfter_MisEventos(idUsu, inicio * 6, 6);
+        List<Evento> listaEvento = eventoRepository.findByFechaAfter_MisEventos(idUsuarioNum, inicioNum * 6, 6);
 
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("listaMisEventos", listaMisEventos);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("listaEvento", listaEvento);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
 
-        return "redirect:/usuario/misEventos1";
-    }
-
-    @GetMapping("usuario/misEventos1")
-    public String misEventos(Model model) {
-
-        /*
-        List<FechaHoy> fecha = eventoRepository.findFecha();
-        model.addAttribute("fechahoy", listafecha);
-         */
         return "usuario/Usuario_MisEventos";
     }
 
-    @GetMapping("/usuario/misEventosOcurridos/{idUsu}")
-    public String misEventosOcurridosUsu(Model model, @PathVariable("idUsu") int idUsu, @RequestParam(name = "inicio", required = false) Integer inicio,
-            RedirectAttributes attr) {
+    @GetMapping("usuario/buscarMisEventos")
+    public String buscarMisEventos(Model model, @RequestParam(name = "nombre") String nombre,
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr,
+            HttpSession session) {
 
-        if (inicio == null) {
-            inicio = 0;
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
 
-        } else if (inicio > 0) {
-            inicio--;
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
         }
-        double paginas = (double) eventoRepository.contador_MisEventos1(idUsu);
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/misEventos/" + idUsuarioNum;
+
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/misEventos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contadorMisEventosAfter(nombre, idUsuarioNum);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaMisEventos = eventoRepository.findByFechaBefore_MisEventos(idUsu, inicio * 6, 6);
+        if (cantDePaginas == 0) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/misEventos/" + idUsuarioNum;
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
 
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("listaMisEventos", listaMisEventos);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+        List<Evento> listaEvento = eventoRepository.findBuscadorMisEventosAfter(nombre, idUsuarioNum, inicioNum * 6, 6);
+        model.addAttribute("listaEvento", listaEvento);
+        model.addAttribute("search", nombre);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
 
-        return "redirect:/usuario/misEventosOcurridos1";
+        return "usuario/Usuario_MisEventosBuscador";
     }
 
-    @GetMapping("usuario/misEventosOcurridos1")
-    public String misEventosOcurridos() {
+    @GetMapping("/usuario/misEventosOcurridos/{idUsu}")
+    public String misEventosOcurridosUsu(Model model, @PathVariable("idUsu") String id, @RequestParam(name = "inicio", required = false) String inicio,
+            RedirectAttributes attr, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
+
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
+        }
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/misEventosOcurridos/" + idUsuarioNum;
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/misEventosOcurridos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contador_MisEventos1(idUsuarioNum);
+        double cantPorPaginaDouble = Math.ceil(paginas / 6);
+        int cantDePaginas = (int) cantPorPaginaDouble;
+
+        if (cantDePaginas == 0) {
+            return "usuario/Usuario_MisEventosOcurridos";
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
+
+        List<Evento> listaEvento = eventoRepository.findByFechaBefore_MisEventos(idUsuarioNum, inicioNum * 6, 6);
+
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("listaEvento", listaEvento);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
 
         return "usuario/Usuario_MisEventosOcurridos";
+    }
+    
+    @GetMapping("usuario/buscarMisEventosOcurridos")
+    public String buscarMisEventosOcurridos(Model model, @RequestParam(name = "nombre") String nombre,
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr,
+            HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
+
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
+        }
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/misEventosOcurridos/" + idUsuarioNum;
+
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/misEventosOcurridos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contadorMisEventosBefore(nombre, idUsuarioNum);
+        double cantPorPaginaDouble = Math.ceil(paginas / 6);
+        int cantDePaginas = (int) cantPorPaginaDouble;
+
+        if (cantDePaginas == 0) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/misEventosOcurridos/" + idUsuarioNum;
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
+
+        List<Evento> listaEvento = eventoRepository.findBuscadorMisEventosBefore(nombre, idUsuarioNum, inicioNum * 6, 6);
+        model.addAttribute("listaEvento", listaEvento);
+        model.addAttribute("search", nombre);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
+
+        return "usuario/Usuario_MisEventosOcurridosBuscador";
     }
 
     @GetMapping("usuario/detallesMisEventos/{idEvento}")
@@ -411,26 +721,126 @@ public class UsuarioController {
     //////////////////////////////////////// 
     // EVENTOS ASISTIDOS con Paginacion y Fecha
     @GetMapping("usuario/eventosAsistidos/{idUsuario}")
-    public String eventosAsistidosUsu(Model model, @PathVariable("idUsuario") int idUsuario, @RequestParam(name = "inicio", required = false) Integer inicio,
-            RedirectAttributes attr) {
+    public String eventosAsistidosUsu(Model model, @PathVariable("idUsuario") String idUsuario, @RequestParam(name = "inicio", required = false) String inicio,
+            RedirectAttributes attr, HttpSession session) {
 
-        if (inicio == null) {
-            inicio = 0;
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
 
-        } else if (inicio > 0) {
-            inicio--;
+        int idUsuarioNum = 0;
+        if (idUsuario != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(idUsuario);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
         }
-        double paginas = (double) eventoRepository.contador_Asistencias(idUsuario);
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/eventosAsistidos/" + idUsuarioNum;
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/eventosAsistidos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contador_Asistencias(idUsuarioNum);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaAsistencias = eventoRepository.findByFechaAfter_Asitencias(idUsuario, inicio * 6, 6);
+        if (cantDePaginas == 0) {
+            return "usuario/Usuario_Eventos_Asistidos";
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
+        List<Evento> listaAsistencias = eventoRepository.findByFechaAfter_Asitencias(idUsuarioNum, inicioNum * 6, 6);
 
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("listaAsistencias", listaAsistencias);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("listaAsistencias", listaAsistencias);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
 
-        return "redirect:/usuario/eventosAsitidos1";
+        return "usuario/Usuario_Eventos_Asistidos";
+    }
+
+    @GetMapping("usuario/buscarEventosAsistidos")
+    public String buscarEventosAsistidos(Model model, @RequestParam(name = "nombre") String nombre,
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr,
+            HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
+
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
+        }
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/eventosAsistidos/" + idUsuarioNum;
+
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/eventosAsistidos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.ContadorBuscadorAfter_Asistencias(nombre, idUsuarioNum);
+        double cantPorPaginaDouble = Math.ceil(paginas / 6);
+        int cantDePaginas = (int) cantPorPaginaDouble;
+
+        if (cantDePaginas == 0) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/eventosAsistidos/" + idUsuarioNum;
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
+
+        List<Evento> listaAsistencias = eventoRepository.findBuscadorAfter_Asistencias(nombre, idUsuarioNum, inicioNum * 6, 6);
+        model.addAttribute("listaAsistencias", listaAsistencias);
+        model.addAttribute("search", nombre);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
+
+        return "usuario/Usuario_Eventos_AsistidosBuscador";
     }
 
     @GetMapping("usuario/eventosAsitidos1")
@@ -440,33 +850,128 @@ public class UsuarioController {
     }
 
     @GetMapping("usuario/eventosAsistidosOcurridos/{idUsuario}")
-    public String eventosAsistidosOcurridosUsu(Model model, @PathVariable("idUsuario") int idUsuario, @RequestParam(name = "inicio", required = false) Integer inicio,
-            RedirectAttributes attr) {
+    public String eventosAsistidosOcurridosUsu(Model model, @PathVariable("idUsuario") String id, @RequestParam(name = "inicio", required = false) String inicio,
+            RedirectAttributes attr, HttpSession session) {
 
-        if (inicio == null) {
-            inicio = 0;
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
 
-        } else if (inicio > 0) {
-            inicio--;
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
         }
 
-        double paginas = (double) eventoRepository.contador_Asistencias1(idUsuario);
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/eventosAsistidosOcurridos/" + idUsuarioNum;
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/eventosAsistidosOcurridos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.contador_Asistencias1(idUsuarioNum);
         double cantPorPaginaDouble = Math.ceil(paginas / 6);
         int cantDePaginas = (int) cantPorPaginaDouble;
 
-        List<Evento> listaAsistencias = eventoRepository.findByFechaBefore_Asitencias(idUsuario, inicio * 6, 6);
+        if (cantDePaginas == 0) {
 
-        attr.addFlashAttribute("cantDePaginas", cantDePaginas);
-        attr.addFlashAttribute("listaAsistencias", listaAsistencias);
-        attr.addFlashAttribute("paginaActual", ++inicio);
+            return "usuario/Usuario_PorAsistir";
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
 
-        return "redirect:/usuario/eventosAsistidosOcurridos1";
-    }
+        List<Evento> listaAsistencias = eventoRepository.findByFechaBefore_Asitencias(idUsuarioNum, inicioNum * 6, 6);
 
-    @GetMapping("usuario/eventosAsistidosOcurridos1")
-    public String eventosAsistidosOcurridos() {
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("listaAsistencias", listaAsistencias);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
 
         return "usuario/Usuario_PorAsistir";
+    }
+
+    @GetMapping("usuario/buscarEventosOcurridos")
+    public String buscarEventosOcurridos(Model model, @RequestParam(name = "nombre") String nombre,
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "inicio", required = false) String inicio, RedirectAttributes attr,
+            HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        int isSesion = usuario.getId();
+
+        int idUsuarioNum = 0;
+        if (id != null) {
+            try {
+                idUsuarioNum = Integer.parseInt(id);
+                if (isSesion != idUsuarioNum) {
+                    attr.addFlashAttribute("mensaje", "NO TIENE PERMISOS SUFICIENTES PARA REALIZAR ESTA ACCION");
+                    return "redirect:/usuario/listar";
+                }
+            } catch (NumberFormatException e) {
+                attr.addFlashAttribute("mensaje", "No juegue con los ids");
+                return "redirect:/usuario/listar";
+            }
+        }
+
+        int inicioNum = 0;
+        if (inicio != null) {
+            try {
+                inicioNum = Integer.parseInt(inicio);
+                if (inicioNum < 0) {
+
+                    attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                    return "redirect:/usuario/eventosAsistidosOcurridos/" + idUsuarioNum;
+
+                } else if (inicioNum > 0) {
+                    inicioNum--;
+                }
+
+            } catch (NumberFormatException e) {
+
+                attr.addFlashAttribute("mensaje", "No existe ese numero de paginacion");
+                return "redirect:/usuario/eventosAsistidosOcurridos/" + idUsuarioNum;
+            }
+        }
+
+        double paginas = (double) eventoRepository.ContadorBuscadorBefore_Asistencias(nombre, idUsuarioNum);
+        double cantPorPaginaDouble = Math.ceil(paginas / 6);
+        int cantDePaginas = (int) cantPorPaginaDouble;
+
+        if (cantDePaginas == 0) {
+            attr.addFlashAttribute("mensaje", "No se encontraron resultados");
+            return "redirect:/usuario/eventosAsistidosOcurridos/" + idUsuarioNum;
+        } else if (cantDePaginas <= inicioNum) {
+            attr.addFlashAttribute("mensaje", "Numero de paginacion no existe");
+            return "redirect:/usuario/listar";
+        }
+
+        List<Evento> listaAsistencias = eventoRepository.findBuscadorBefore_Asistencias(nombre, idUsuarioNum, inicioNum * 6, 6);
+        model.addAttribute("listaAsistencias", listaAsistencias);
+        model.addAttribute("search", nombre);
+        model.addAttribute("cantDePaginas", cantDePaginas);
+        model.addAttribute("paginaActual", ++inicioNum);
+        model.addAttribute("id", idUsuarioNum);
+
+        return "usuario/Usuario_PorAsistirBuscador";
     }
 
     @GetMapping("usuario/detallesAsistidos/{idEvento}")

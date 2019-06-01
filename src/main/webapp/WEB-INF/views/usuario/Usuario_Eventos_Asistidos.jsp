@@ -19,8 +19,8 @@
 
         <script>
             $(document).ready(function () {
-                $("#eventosAsistidos").prop('class', 'nav-item active');
-                
+
+
                 $("#sidebarToggle").click(function () {
 
 
@@ -31,7 +31,11 @@
                     }
 
                 });
+                $(function () {
+                    $('[data-toggle="popover"]').popover()
+                })
             })
+
 
 
         </script>
@@ -51,7 +55,48 @@
                 flex-wrap: nowrap !important ;
 
             }
+            .tamano_img{
+                width: 347px;
+                height: 240px;
+            }
 
+            .movie__label {
+                display: flex;
+                position: absolute;
+                z-index: 2;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .titulo{
+                align-items: center;
+                justify-content: center;
+                z-index: 4;
+
+            }
+            .boton1{
+
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            .boton2{
+
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .transparente::before{
+                opacity: 0.5;
+            }
+            .transparente::after{
+                opacity: .5;
+            }
         </style>
 
 
@@ -72,50 +117,75 @@
 
                     <div class="card">
 
-
+                        <div class="card-header "> <strong> EVENTOS POR ASISTIR</strong> </div>
                         <div class="card-body">
 
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Nombre...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-secondary" type="button">Buscar</button>
-                                </span>
-                            </div>
+                            <form method="GET" action="${rootUrl}usuario/buscarEventosAsistidos" >
+
+                                <div class="row">
+                                    <div class="col-sm-11">
+                                        <input type="text" class="form-control" name ="nombre" placeholder="Buscador por nombre de evento" value="${search}"/>
+                                        <input type="hidden" value="${id}" name="id"/>
+                                    </div>
+                                    <span class="input-group-btn">
+
+                                        <input type="submit" class="btn btn-primary" value="Buscar"/>
+                                    </span>
+                                </div>
+                            </form>
 
                             <p>  </p>
-
+                            <c:if test="${mensaje != null}">
+                                <div class="alert alert-danger" role="alert"> ${mensaje}</div>
+                            </c:if>
 
 
                             <div class="row">
 
-                                <c:forEach items="${listaAsistencias}" var= "listaAsistencias">
-                                    <div class="col-lg-4"> 
-
-                                        <div class="card mt-4">
-                                            <img class="card-img-top img-fluid"  style="width:1500px;height:300px;" src="${rootUrl}fileUploaded/${listaAsistencias.foto}" alt="">
+                                <c:forEach items="${listaAsistencias}" var= "listaEvento">
 
 
-                                            <div class="card-body">
+                                    <div class="col-sm-4">
 
 
 
-                                                <a ><h3 class="text-left" > <font color="black"> ${listaAsistencias.nombre}</font>  </h3> </a>
-                                                <h5 class="text-success" > Categoría: ${listaAsistencias.categoria.nombreCategoria} </h5>
-                                                <p>Fecha: ${listaAsistencias.fecha}</p>
-                                                <p>Inicio del evento: ${listaAsistencias.horaInicio} horas</p>
-                                                <p>Fin del evento: ${listaAsistencias.horaFin} horas </p>                                            
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row no-gutters">
+                                                <div class="col-sm-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline" style="margin-bottom:0px ">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-dark btn-block">   ${listaEvento.nombre} </button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    </form>
+                                                </div>
+                                                <div class="col-sm-12">
+
+                                                    <img src="${rootUrl}fileUploaded/${listaEvento.foto}" class=" card-img-top img-responsive tamano_img">
+                                                    <button type="button" class="btn btn-outline-primary boton1 transparente" data-toggle="popover" title="${listaEvento.descripcion}" data-placement="left" 
+                                                            data-content="Inicio del evento: ${listaEvento.horaInicio} horas  /                         
+                                                            Fin del evento: ${listaEvento.horaFin} horas " >
+                                                        <i class="far fa-eye"></i></button>
+                                                    <button type="button" class="badge badge-pill badge-danger boton2">${listaEvento.categoria.nombreCategoria}</button>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <button type="submit"  class="btn btn-light btn-block disabled">Fecha: ${listaEvento.fecha}</button>
 
 
-                                                <div >
+                                                </div> 
+                                                <div class="col-sm-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-outline-info btn-block">Asistir/Ver detalles</button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                                                    <a class="btn btn-primary float-left" href="${rootUrl}usuario/detallesAsistidos/${listaAsistencias.id}">Detalles</a> 
-                                                    <a class="btn btn-danger float-right" href="${rootUrl}usuario/NoasistirEvento/${sessionScope.usuario.id}/${listaAsistencias.id}">No Asistir</a> 
+                                                    </form>
 
-                                                </div>     
+                                                </div> 
                                             </div>
                                         </div>
-
                                     </div>
+
 
                                 </c:forEach>
 

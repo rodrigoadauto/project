@@ -25,8 +25,9 @@
             
             #MainMenu{
                 
-                display:none;
+                display: flex;
             }
+           
 
         </style>
     </head>

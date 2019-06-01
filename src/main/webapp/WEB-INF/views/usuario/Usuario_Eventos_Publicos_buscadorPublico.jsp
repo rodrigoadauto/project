@@ -20,7 +20,7 @@
         <script>
             $(document).ready(function () {
                 $("#eventosPublicos").prop('class', 'nav-item active');
-                
+
                 $("#sidebarToggle").click(function () {
 
 
@@ -31,8 +31,11 @@
                     }
 
                 });
-
+                $(function () {
+                    $('[data-toggle="popover"]').popover()
+                })
             })
+
 
 
         </script>
@@ -52,15 +55,49 @@
                 flex-wrap: nowrap !important ;
 
             }
+            .tamano_img{
+                width: 347px;
+                height: 240px;
+            }
 
+            .movie__label {
+                display: flex;
+                position: absolute;
+                z-index: 2;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .titulo{
+                align-items: center;
+                justify-content: center;
+                z-index: 4;
+
+            }
+            .boton1{
+
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            .boton2{
+
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                text-transform: uppercase;
+                align-items: center;
+                justify-content: center;
+                opacity:0.8;
+            }
+            .transparente::before{
+                opacity: 0.5;
+            }
+            .transparente::after{
+                opacity: .5;
+            }
         </style>
-        <link href="${urlPublic}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-        <!-- Page level plugin CSS-->
-        <link href="${urlPublic}/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link href="${urlPublic}/css/sb-admin.css" rel="stylesheet">
 
     </head>
 
@@ -91,15 +128,14 @@
 
                                     <span class="input-group-btn">
 
-                                        <input type="submit" class="btn btn-secondary" value="Buscar"/>
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                                        <input type="submit" class="btn btn-primary" value="Buscar"/>
                                     </span>
                                 </div>
                             </form>
 
 
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Filtrar Por Tiempo
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -110,49 +146,55 @@
                                     <a class="dropdown-item" href="${rootUrl}usuario/filtroTiempo?tiempo=30">Próximos 30 dias</a>
                                 </div>
                             </div>
-
+                            <br>
+                            <c:if test="${mensaje != null}">
+                                <div class="alert alert-danger" role="alert"> ${mensaje}</div>
+                            </c:if>
 
                             <div class="row">
 
                                 <c:forEach items="${listaEvento}" var= "listaEvento">
-                                    <div class="col-lg-4"> 
 
-                                        <div class="card mt-4">
-                                            <img class="card-img-top img-fluid"  style="width:1500px;height:300px;" src="${rootUrl}fileUploaded/${listaEvento.foto}" alt="">
 
-                                            <div class="card-body">
+                                    <div class="col-sm-4">
 
 
 
-                                                <form method="post" action="${rootUrl}usuario/detalles" class="inline">
-                                                    <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row no-gutters">
+                                                <div class="col-sm-12">
+                                                    <form method="post" action="${rootUrl}usuario/detalles" class="inline" style="margin-bottom:0px ">
+                                                        <input type="hidden" name="idEvento" value="${listaEvento.id}">
+                                                        <button type="submit"  class="btn btn-dark btn-block">   ${listaEvento.nombre} </button>
+                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    </form>
+                                                </div>
+                                                <div class="col-sm-12">
 
-                                                    <button type="submit"  class="btn btn-primary-outline">
+                                                    <img src="${rootUrl}fileUploaded/${listaEvento.foto}" class=" card-img-top img-responsive tamano_img">
+                                                    <button type="button" class="btn btn-outline-primary boton1 transparente" data-toggle="popover" title="${listaEvento.descripcion}" data-placement="left" 
+                                                            data-content="Inicio del evento: ${listaEvento.horaInicio} horas  /                           
+                                                            Fin del evento: ${listaEvento.horaFin} horas " >
+                                                        <i class="far fa-eye"></i></button>
+                                                    <button type="button" class="badge badge-pill badge-danger boton2">${listaEvento.categoria.nombreCategoria}</button>
+                                                </div>
 
-                                                        <h3 class="text-left" > <font color="black"> ${listaEvento.nombre}</font>  </h3>
-                                                    </button>
-                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                                </form>
-                                                <h5 class="text-success" > Categoría: ${listaEvento.categoria.nombreCategoria} </h5>
-                                                <p> ${listaEvento.descripcion}</p>
-                                                <p>Fecha: ${listaEvento.fecha}</p>
-                                                <p>Inicio del evento: ${listaEvento.horaInicio} horas</p>
-                                                <p>Fin del evento: ${listaEvento.horaFin} horas </p>                                            
+                                                <div class="col-sm-12">
+                                                    <button type="submit"  class="btn btn-light btn-block disabled">Fecha: ${listaEvento.fecha}</button>
 
 
-                                                <div >
-
+                                                </div> 
+                                                <div class="col-sm-12">
                                                     <form method="post" action="${rootUrl}usuario/detalles" class="inline">
                                                         <input type="hidden" name="idEvento" value="${listaEvento.id}">
-                                                        <button type="submit"  class="btn btn-primary">Asistir/Ver detalles</button>
-
+                                                        <button type="submit"  class="btn btn-outline-info btn-block">Asistir/Ver detalles</button>
                                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                                                     </form>
-                                                </div>     
+
+                                                </div> 
                                             </div>
                                         </div>
-
                                     </div>
 
 
