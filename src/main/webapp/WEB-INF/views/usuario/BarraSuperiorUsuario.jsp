@@ -22,12 +22,12 @@
     <body>
 
 
-        <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color">
+        <nav class="mb-1 navbar navbar-expand-lg navbar-dark info-color static-top">
             <a class="navbar-brand" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">EVENT PUCP</font></font></a>
             <!--
             <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle"  href="#">
                 <i class="fas fa-bars"></i>
-            </button> !-->
+            </button>  -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">

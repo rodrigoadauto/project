@@ -74,7 +74,7 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header "> <strong> EDITAR EVENTO</strong> </div>
+                        <div class="card-header "> <strong>Editar Evento</strong> </div>
 
                         <div class="card-body">
 

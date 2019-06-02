@@ -27,15 +27,18 @@
                 
                 display: flex;
             }
-           
+           .MainMenu{
+                
+                display: flex;
+            }
 
         </style>
     </head>
     <body>
 
         <!-- Sidebar -->
-        <div id="MainMenu">
-            <ul class="sidebar navbar-nav negro toggled" >
+        
+            <ul class="sidebar navbar-nav negro toggled MainMenu" >
                 <li class="nav-item" id="eventosPublicos">
                     <a class="nav-link" href="${rootUrl}usuario/listar">
                         <i class="far fa-eye"></i>
@@ -72,7 +75,7 @@
                 <li class="nav-item dropdown" id="eventosAsistidos">
                     <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-fw fa-folder"></i>
-                        <span>Eventos Asistidos</span>
+                        <span>Eventos</span>
                     </a>
                     <div class="dropdown-menu bg-indigo" aria-labelledby="pagesDropdown">
                         <a class="dropdown-item "href="${rootUrl}usuario/eventosAsistidos/${sessionScope.usuario.id}" > Eventos Por Asitir </a>
@@ -102,7 +105,7 @@
 
             </ul>
 
-        </div>
+        
 
     </body>
 </html>

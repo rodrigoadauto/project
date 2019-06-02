@@ -53,13 +53,6 @@
             }
 
         </style>
-        <link href="${urlPublic}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-        <!-- Page level plugin CSS-->
-        <link href="${urlPublic}/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link href="${urlPublic}/css/sb-admin.css" rel="stylesheet">
 
     </head>
 
@@ -77,7 +70,7 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header "> <strong> EDITAR EVENTO</strong> </div>
+                        <div class="card-header "> <strong>Detalles del Evento</strong> </div>
 
                         <div class="card-body">
 

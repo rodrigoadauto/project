@@ -69,14 +69,14 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header"><strong>POSTULAR A MODERADOR </strong> </div>
+                        <div class="card-header"><strong>Postular a Moderador</strong> </div>
 
                         <div class="card-body">
                             <br>
                             <form:form action="${rootUrl}agregarSolicitud" method="POST" modelAttribute="solicitud">
                                 <div class="form-group"> 
                                     <form:hidden path="id"  />
-                                    <label for="categoria">Categoria</label>
+                                    <label for="categoria"><strong>Categoria</strong></label>
                                     <form:select  class="form-control" path="categoria.id"
                                                   items="${listaCategorias}" itemValue="id" itemLabel="nombreCategoria"/> 
 
@@ -84,7 +84,8 @@
                                 <form:hidden path="usuario.id" value="${sessionScope.usuario.id}" />
                                 <div class="form-group">
                                     <br>
-                                    <label for="comment"   style="margin-left: 8px";>Ingresa el motivo por el cual deseas ser moderador de esta categoría:</label>
+                                    <label for="comment"   style="margin-left: 8px"><strong>Motivo por el cual deseas ser moderador de esta categoría:
+                                    </strong></label>
 
                                     <form:textarea
                                         id="comment"

@@ -57,7 +57,7 @@
 
             }
             .tamano_img{
-                width: 347px;
+                width: 100%;
                 height: 240px;
             }
             .movie__label {
@@ -102,20 +102,20 @@
 
     </head>
 
-    <body class="color">
+    <body class="color" id="page-top">
 
         <jsp:include page="BarraSuperiorUsuario.jsp" />
 
         <!-- Page Content -->
         <div id="wrapper"> 
-            <div>
+            
                 <jsp:include page="MenuUsuario.jsp" />
-            </div>
+            
             <div id="content-wrapper">
 
                 <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-header "> <strong> EVENTOS PÚBLICOS</strong> </div>
+                    <div class="card mb-3">
+                        <div class="card-header "> <strong> Eventos Publicos</strong> </div>
 
                         <div class="card-body">
 

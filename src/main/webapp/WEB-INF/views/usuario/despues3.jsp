@@ -52,13 +52,6 @@
             }
 
         </style>
-        <link href="${urlPublic}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-        <!-- Page level plugin CSS-->
-        <link href="${urlPublic}/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link href="${urlPublic}/css/sb-admin.css" rel="stylesheet">
 
     </head>
 

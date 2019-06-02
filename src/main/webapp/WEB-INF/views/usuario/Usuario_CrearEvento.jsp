@@ -23,7 +23,7 @@
         <script>
             $(document).ready(function () {
                 $("#crearEvento").prop('class', 'nav-item active');
-                
+
                 $("#sidebarToggle").click(function () {
 
 
@@ -34,7 +34,13 @@
                     }
 
                 });
+
+                $(".custom-file-input").on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
             })
+
 
         </script>
         <style>
@@ -73,7 +79,7 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header "> <strong> CREAR EVENTO</strong> </div>
+                        <div class="card-header "> <strong>Crear Evento</strong> </div>
 
                         <div class="card-body">
 
@@ -83,82 +89,83 @@
                                 <!-- Se guarda el Id del creador -->
                                 <form:hidden path="usuario.id" value="${sessionScope.usuario.id}" />
 
+
+
+
+
+                                <div class="form-group"> 
+                                    <label for="nombre"><strong>Nombre del evento</strong></label>
+                                    <form:input type="text" class="form-control" path="nombre"/>
+                                    <form:errors path="nombre" element="div" cssClass="text-danger" />
+                                </div>
+
+
+
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Foto Del Evento</label>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <img class="card-img-top img-fluid" src="http://placehold.it/900x300" alt="">
-
-                                        </div>
-
-                                        <div class="col-lg-6">
-
-                                            <p class="invisible"> noborrar </p>
-                                            <p class="invisible"> noborrar </p>
-                                            <div class="form-group">
-                                                <label for="file"> Foto</label>
-                                                <input class="form-control-file" type="file" name="file"/>
-                                                <c:if test="${msgFile!=null}">
-                                                    <div class="text-danger">${msgFile}</div>
-                                                </c:if> 
-
-                                            </div>
-
-                                        </div>
-
-                                        <h6 class="invisible"> no borrar </h6>
-
-                                    </div>
+                                    <label for="lugar"><strong>Ubicación</strong></label>
+                                    <form:input type="text" class="form-control" path="lugar"/>
+                                    <form:errors path="lugar" element="div" cssClass="text-danger" />
+                                </div>
 
 
+                                <div class="form-group">
+                                    <label for="descripcion"><strong>Descripción</strong></label>
+                                    <form:textarea type="text" class="form-control" id="exampleFormControlTextarea3" path="descripcion" rows="5"/>
+                                    <form:errors path="descripcion" element="div" cssClass="text-danger" />
+                                </div>
+                                <div class="form-group"> 
+                                    <label for="categoria"><strong>Categoria</strong></label>
+                                    <form:select  class="form-control" path="categoria.id"
+                                                  items="${listaCategorias}" itemValue="id" itemLabel="nombreCategoria"/> 
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1"><strong>Foto</strong></label>
 
                                     <div class="form-group"> 
-                                        <label for="nombre">Nombre del evento</label>
-                                        <form:input type="text" class="form-control" path="nombre"/>
-                                        <form:errors path="nombre" element="div" cssClass="text-danger" />
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="customFile" name="file">
+                                            <label class="custom-file-label " for="customFile">Choose file</label>
+                                            <c:if test="${msgFile!=null}">
+                                                <div class="text-danger">${msgFile}</div>
+                                            </c:if> 
+                                        </div>
                                     </div>
+                                    
+                                </div>
+                                <form:input type="hidden" path="estadoEvento" value="Por atender"/>
+
+                                <div class="form-group">
+                                    <label for="fecha"><strong>Fecha</strong></label>
+                                    <form:input type="date" id="textboxid" class="form-control" path="fecha" placeholder="YYYY-MM-DD"/> 
+                                    <form:errors path="fecha" element="div" cssClass="text-danger" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="horaInicio"><strong>Hora Incio</strong></label>
+                                    <form:input type="time" id="textboxid" class="form-control" path="horaInicio" />
+                                    <form:errors path="horaInicio" element="div" cssClass="text-danger" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="horaFin"><strong>Hora Fin</strong></label>
+                                    <form:input type="time" id="textboxid" class="form-control" path="horaFin" />
+                                    <form:errors path="horaFin" element="div" cssClass="text-danger" />
+
+                                </div>
 
 
 
-                                    <div class="form-group">
-                                        <label for="lugar">Ubicación</label>
-                                        <form:input type="text" class="form-control" path="lugar"/>
-                                        <form:errors path="lugar" element="div" cssClass="text-danger" />
-                                    </div>
+                                <!-- Bootstrap core CSS <div class="form-group">
+                               <label for="exampleInputEmail1">Fecha fin</label>
+
+                               <input type="text" data-role="calendarpicker" name="fechaEvento"  placeholder="Selecciona la fecha">
+
+                           </div> -->
 
 
-                                    <div class="form-group">
-                                        <label for="descripcion">Descripción</label>
-                                        <form:textarea type="text" class="form-control" id="exampleFormControlTextarea3" path="descripcion" rows="5"/>
-                                        <form:errors path="descripcion" element="div" cssClass="text-danger" />
-                                    </div>
-                                    <div class="form-group"> 
-                                        <label for="categoria">Categoria</label>
-                                        <form:select  class="form-control" path="categoria.id"
-                                                      items="${listaCategorias}" itemValue="id" itemLabel="nombreCategoria"/> 
 
-                                    </div>
-
-                                    <form:input type="hidden" path="estadoEvento" value="Por atender"/>
-
-                                    <div class="form-group">
-                                        <label for="fecha">Fecha</label>
-                                        <form:input type="date" id="textboxid" class="form-control" path="fecha" placeholder="YYYY-MM-DD"/> 
-                                        <form:errors path="fecha" element="div" cssClass="text-danger" />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="horaInicio">Hora Incio</label>
-                                        <form:input type="time" id="textboxid" class="form-control" path="horaInicio" placeholder="00:00:00"/>
-                                        <form:errors path="horaInicio" element="div" cssClass="text-danger" />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="horaFin">Hora Fin</label>
-                                        <form:input type="time" id="textboxid" class="form-control" path="horaFin" placeholder="00:00:00"/>
-                                        <form:errors path="horaFin" element="div" cssClass="text-danger" />
-
-                                    </div>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
 
 
 
@@ -166,34 +173,17 @@
 
 
 
-                                    <!-- Bootstrap core CSS <div class="form-group">
-                                   <label for="exampleInputEmail1">Fecha fin</label>
-
-                                   <input type="text" data-role="calendarpicker" name="fechaEvento"  placeholder="Selecciona la fecha">
-
-                               </div> -->
-
-
-
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
-
-
-
-
-
-
-
-                                </form:form>
-                            </div>
+                            </form:form>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <jsp:include page="codigojs.jsp" />
-    </body>
+    <jsp:include page="codigojs.jsp" />
+</body>
 
 </html>

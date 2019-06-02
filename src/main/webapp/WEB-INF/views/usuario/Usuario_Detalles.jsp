@@ -72,7 +72,7 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header"> <strong> DETALLES DEL EVENTO </strong></div>
+                        <div class="card-header"> <strong>Detalles del Evento</strong></div>
 
                         <div class="card-body">
                             <div class="input-group">

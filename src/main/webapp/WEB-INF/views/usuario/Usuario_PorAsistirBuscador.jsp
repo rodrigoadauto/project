@@ -57,7 +57,7 @@
 
             }
             .tamano_img{
-                width: 347px;
+                width: 100%;
                 height: 240px;
             }
 
@@ -117,7 +117,7 @@
 
                     <div class="card">
 
-                        <div class="card-header "> <strong> EVENTOS ASISTIDOS</strong> </div>
+                        <div class="card-header "> <strong>Eventos Asistidos</strong> </div>
                         <div class="card-body">
 
                             <form method="GET" action="${rootUrl}usuario/buscarEventosOcurridos" >

@@ -54,14 +54,6 @@
             }
 
         </style>
-        <link href="${urlPublic}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-        <!-- Page level plugin CSS-->
-        <link href="${urlPublic}/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
-        <!-- Custom styles for this template-->
-        <link href="${urlPublic}/css/sb-admin.css" rel="stylesheet">
-
     </head>
 
     <body class="color" >
@@ -79,7 +71,7 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header "> <strong> Evento Creado satisfactoriamente</strong> </div>
+                        <div class="card-header "> <strong> Evento Creado Satisfactoriamente</strong> </div>
 
                         <div class="card-body">
                             <p>Muchas gracias por usar nuestros servicios tu evento ha sido creado,ya lo puede visualizar en los eventos públicos.Los modeadores y administradores lo revisarán para corroborar que todo está bien</p>

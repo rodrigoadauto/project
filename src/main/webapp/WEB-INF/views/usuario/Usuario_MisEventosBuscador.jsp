@@ -59,7 +59,7 @@
 
             }
             .tamano_img{
-                width: 347px;
+                width: 100%;
                 height: 240px;
             }
             .movie__label {

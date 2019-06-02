@@ -118,7 +118,7 @@ public class Evento implements Serializable {
 
     @Column(name = "descripcion", nullable = false)
     @NotBlank
-    @Size(min = 10, max = 40, message = "Ingrese una descripcion entre 10 a 400 caracteres")
+    @Size(min = 10, max = 200, message = "Ingrese una descripcion entre 10 a 200 caracteres")
     private String descripcion;
 
     @Column(name = "fecha", nullable = false)

@@ -56,7 +56,7 @@
 
             }
             .tamano_img{
-                width: 347px;
+                width: 100%;
                 height: 240px;
             }
 
@@ -115,7 +115,7 @@
                 <div class="container-fluid">
 
                     <div class="card">
-                        <div class="card-header "> <strong> EVENTOS PÚBLICOS</strong> </div>
+                        <div class="card-header "> <strong>Eventos Publicos</strong> </div>
 
                         <div class="card-body">
 
